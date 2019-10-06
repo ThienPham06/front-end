@@ -1,0 +1,10 @@
+.item {
+    width: 100%
+}
+
+.carou-inner {
+   width: 70%;
+   max-height: 50%;
+   margin:0 auto;
+   margin-top: 3%;
+}

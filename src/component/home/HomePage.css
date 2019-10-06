@@ -1,0 +1,20 @@
+.addButton {
+    width: 150px;
+    height: 150px;
+    margin-left: 100px;
+}
+
+.confirmButton {
+    width: 150px;
+    height: 150px;
+    margin-left: 80px;
+}
+
+.blank {
+    height: 20px;
+}
+
+.navbar {
+    background-color:lightcyan;
+    opacity: 0.7;
+}

@@ -1,67 +1,68 @@
-import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
+import { Form, FormGroup, Label, Button, FormFeedback } from 'reactstrap';
 import React, { Component } from 'react';
 import './LoginForm.css';
-import { ACCESS_TOKEN } from '../../constant';
 import '../../util/API.js'
 import { login } from '../../util/API.js';
+import {withRouter} from 'react-router-dom'
 
 class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            loginRequest: {usernameOrId: '', password: '', "adminOrStudent": ''},
             usernamePasswordValid: true,
-            formErrors: ''
+            selectedOption: 'admin'
         };
-        // this.usernameRef = React.createRef();
-        // this.passRef = React.createRef();
-        
         this.handleSubmit = this.handleSubmit.bind(this);
-        // this.showValue = this.showValue.bind(this);
+        this.handRadioChange = this.handRadioChange.bind(this);
     }
 
-    showValue = () => {
-        try{alert(this.refs.usernameInput.value + '   ' + this.refs.passInput.value)}
-        catch(err) {
-            console.log(err); 
-        }
+    handRadioChange(changeEvent){
+        this.setState({selectedOption: changeEvent.target.value})
     }
 
     handleSubmit(event){
         event.preventDefault();
-        // this.setState.loginRequest = {
-        //     usernameOrId: this.refs.usernameInput.value,
-        //     password: this.refs.passInput.value,
-        //     adminOrStudent: 'student'};
-        login(this.refs.usernameInput.value, this.refs.passInput.value, 'student')
+        login(this.refs.usernameInput.value, this.refs.passInput.value)
             .then(res => {
-                localStorage.setItem(ACCESS_TOKEN, res.access_token);
-                return res;  
+                // this.setState({formErrors: res});
+                // console.log( this.state.formErrors);
+                // console.log(this.state.selectedOption);
+                this.props.history.push('/home');
             })
             .catch(err => {
-                console.log(err.res);
-            })
+                this.setState({formErrors: err.res});
+                // console.log( this.state.formErrors);
+            });
         }
         
     render() { 
         return ( 
-        <Form onSubmit={this.handleSubmit} className="loginform">
+        <Form onSubmit={this.handleSubmit} className="loginform" history={this.props.history} >
             <FormGroup>
-                <Label for="exampleUsername">Username:  </Label>
+                <Label for="exampleUsername">Username:  </Label><br></br>
                 <input type="text" name="usename" id="usename" 
                     placeholder="username or user id" ref="usernameInput" />
-                <FormFeedback>{ this.props.formErrors }</FormFeedback>
+                <FormFeedback></FormFeedback>
             </FormGroup>
             <FormGroup>
-                <Label for="examplePassword">Password:  </Label>
+                <Label for="examplePassword">Password:  </Label><br></br>
                 <input type="password" name="password" id="password" 
                     placeholder="password" ref="passInput" />
-                <FormFeedback>{ this.props.formErrors }</FormFeedback>
+                <FormFeedback></FormFeedback>
             </FormGroup>
+            {/* <FormGroup>
+          <Label for="exampleCheckbox">Login as: </Label>
+          <div>
+            <CustomInput checked= {this.state.selectedOption==="admin"} type="radio" value="admin" id='1' name='admin' label="administrator"
+                onChange={this.handRadioChange} />
+            <CustomInput checked= {this.state.selectedOption==="student"} type="radio" value="student" id='2' name='student' label="student" 
+                onChange={this.handRadioChange} />
+          </div>
+        </FormGroup> */}
             <Button type = "submit" htmltype="submit" size="large" className="login-form-button">Login</Button>
         </Form>
         );
     }
 }
  
-export default LoginForm;
+export default withRouter(LoginForm);
