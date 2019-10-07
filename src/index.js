@@ -5,19 +5,17 @@ import App from '../src/app/App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route } from "react-router-dom";
-import Admin from './component/admin/Admin';
 import HomePage from './component/home/HomePage';
 import PlanPage from './component/plan/PlanPage';
-import Plan from './component/plan/Plan';
+import ProfilePage from './component/profile/ProfilePage';
 
 const routing = (
     <BrowserRouter>
         <div>
             <Route exact path= "/" component = { App } />
-            <Route path="/admin" component = { Admin } />
             <Route path="/home" component = { HomePage } />
             <Route exact path="/planpage" component = { PlanPage} />
-            <Route path="/plan" component = { Plan } />
+            <Route exact path="/profilepage" component = { ProfilePage } />
         </div>
     </BrowserRouter>
 )

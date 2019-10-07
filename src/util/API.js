@@ -1,4 +1,5 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
+import { async } from 'q';
 
 const axios = require('axios').default;
 // axios.defaults.baseURL = "http://localhost:1234/api";
@@ -17,7 +18,6 @@ export async function login(username, password, role) {
       })
       .catch(err => {
           if(err.response){
-            //   console.log(err.response.status);
               const status = err.response.status;
               return status;
           }
@@ -78,5 +78,44 @@ export async function getPlandetailByPlanId(planId){
                 return plandetail;
             }
         })
+}
+
+export async function getStudentById(studentId){
+    return await axios.get(API_BASE_URL + '/profile/student/' + studentId, {
+        studentId: studentId
+    }).then(res=>{
+        if(res.status===200 && res!=null){
+            const std = res.data;
+            return std;
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+
+export async function getAdminById(adminId){
+    return await axios.get(API_BASE_URL + '/profile/admin/' + adminId, {
+        adminId: adminId
+    }).then(res=>{
+        if(res.status===200 && res!=null){
+            const ad = res.data;
+            return ad;
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+
+export async function getStudentDetailById(studentId){
+    return await axios.get(API_BASE_URL + '/profile/studentdetail/'+studentId, {
+        studentId: studentId
+    }).then(res=>{
+        if(res.status===200 && res!= null){
+            const stddetail = res.data;
+            return stddetail;
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
 }
 

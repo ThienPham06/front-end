@@ -57,13 +57,13 @@ class SlideShow extends Component {
     const slides = items.map((item) => {
       return (
         <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.src}>
-          <img src={item.src} class='item'/>
+          <img src={item.src} className='item'/>
         </CarouselItem>
       );
     });
 
     return (
-        <div  class='carou-inner'>
+        <div  className='carou-inner'>
       <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
         <CarouselIndicators class='carou-inner' items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
             {slides}

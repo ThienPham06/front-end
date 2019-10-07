@@ -39,7 +39,7 @@ class NavBar extends Component {
                 <Collapse isOpen={this.state.collapsed} navbar>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink href=''>Profile</NavLink>
+                            <NavLink href='/profilepage'>Profile</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href=''>Setting</NavLink>

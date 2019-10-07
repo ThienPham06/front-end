@@ -9,11 +9,8 @@ class Plan extends Component {
         super(props);
         this.state = { 
             isLoading:false,
-            // plan: this.props.plan,
-            modal: this.props.modalFromList,
-            // plandetail: []
+            modal: this.props.modalFromList
         };
-        
     }
 
     toggle = () => {
