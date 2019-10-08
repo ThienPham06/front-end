@@ -4,7 +4,6 @@ import './LoginForm.css';
 import '../../util/API.js'
 import { login } from '../../util/API.js';
 import {withRouter} from 'react-router-dom';
-import cookie from 'react-cookies'
 
 class LoginForm extends Component {
     constructor(props) {
@@ -27,20 +26,9 @@ class LoginForm extends Component {
             .catch(err => {
                 this.setState({formErrors: err.res});
             });
-            window.sessionStorage.setItem('userid', this.refs.userIdInput.value);
-
+            
+            sessionStorage.setItem("id", this.refs.userIdInput.value);
         }
-    
-    // componentDidMount(){
-    //     cookie.save('userID', this.refs.userIdInput.value, {
-    //         path: '/',
-    //         maxAge: 600,
-    //         domain: 'localhost:3000',
-    //         secure: true,
-    //         httpOnly: true
-    //     });
-
-    // }
         
     render() { 
         return ( 

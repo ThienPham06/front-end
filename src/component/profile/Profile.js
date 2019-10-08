@@ -1,43 +1,50 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, Button, Table} from 'reactstrap';
-import {getStudentById, getAdminById} from '../../util/API';
-import cookie from 'react-cookies';
-// import cookie from 'react-cookies'
+import {getStudentById, getAdminById, getStudentDetailById} from '../../util/API';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             student:[],
-            admin:[]
+            studentDetail:[],
+            admin:[],
+            inputid:''
          }
     }
 
-    // loadStudent=(id)=>{
-    //     getStudentById(id).then(response=>{
-    //         this.setState({student: response})
-    //     })
-    // }
+    loadStudent=(id)=>{
+        getStudentById(id).then(response=>{
+            this.setState({student: response})
+        })
+    }
 
-    // loadAdmin=(id)=>{
-    //     getAdminById(id).then(response=>{
-    //         this.setState({admin: response})
-    //     })
-    // }
+    loadStudentDetail = (id) => {
+        getStudentDetailById(id).then(response=>{
+            this.setState({studentDetail: response})
+        })
+    }
 
-    // componentDidMount(){
-    //     this.loadStudent(this.props.userID);
-    //     this.loadAdmin(this.props.userID);
-    // }
+    loadAdmin=(id)=>{
+        getAdminById(id).then(response=>{
+            this.setState({admin: response})
+        })
+    }
+
+    componentDidMount(){
+        this.loadStudent(sessionStorage.getItem("id"));
+        this.loadAdmin(sessionStorage.getItem("id"));
+        this.loadStudentDetail(sessionStorage.getItem("id"));
+    }
 
     render() { 
         let table;
-        if(this.state.student===null){
+        if(this.state.student==="STD-NaN"){
             table=<Table>
             <tr>
                 <td>Admin ID: </td>
-                <td></td>
+                <td>{this.state.admin.adminId}</td>
             </tr>
             <tr>
                 <td>Fullname: </td>
@@ -53,22 +60,23 @@ class Profile extends Component {
             </tr>
         </Table>
         }else{
+            
             table=<Table>
             <tr>
                 <td>Student ID: </td>
-                <td></td>
+                <td>{this.state.student.studentId}</td>
             </tr>
             <tr>
                 <td>Fullname: </td>
-                <td></td>
+                <td>{this.state.studentDetail.studentdetailFullname}</td>
             </tr>
             <tr>
                 <td>Email: </td>
-                <td></td>
+                <td>{this.state.studentDetail.studentdetailEmail}</td>
             </tr>
             <tr>
                 <td>Bloodgroup: </td>
-                <td></td>
+                <td>{this.state.studentDetail.studentdetailBloodgroup}</td>
             </tr>
             <tr>
                 <td>Department: </td>
@@ -83,7 +91,7 @@ class Profile extends Component {
                         <Card>
                             <CardImg top width="100%" src="" alt="Card image cap"/>
                             <CardBody>
-                                <CardTitle>aa   {localStorage.getItem("id")}</CardTitle>
+                                <CardTitle></CardTitle>                    
                                 <Button>Change image</Button>
                             </CardBody>
                         </Card>

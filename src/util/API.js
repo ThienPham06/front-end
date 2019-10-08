@@ -84,8 +84,8 @@ export async function getStudentById(studentId){
     return await axios.get(API_BASE_URL + '/profile/student/' + studentId, {
         studentId: studentId
     }).then(res=>{
-        if(res.status===200 && res!=null){
-            const std = res.data;
+        if(res.status===200&& res!=null){
+            const std = res.data ? res.data : "STD-NaN";
             return std;
         }
     }).catch(err=>{
@@ -98,7 +98,7 @@ export async function getAdminById(adminId){
         adminId: adminId
     }).then(res=>{
         if(res.status===200 && res!=null){
-            const ad = res.data;
+            const ad = res.data ? res.data : 'ADN-NaN'
             return ad;
         }
     }).catch(err=>{
@@ -110,9 +110,9 @@ export async function getStudentDetailById(studentId){
     return await axios.get(API_BASE_URL + '/profile/studentdetail/'+studentId, {
         studentId: studentId
     }).then(res=>{
-        if(res.status===200 && res!= null){
-            const stddetail = res.data;
-            return stddetail;
+        if(res.status===200&&res!=null){
+            const stdl = res.data;
+            return stdl;
         }
     }).catch(err=>{
         console.log(err);
