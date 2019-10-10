@@ -14,9 +14,7 @@ class Plan extends Component {
     }
 
     toggle = () => {
-        this.setState(prevState => ({
-          modal: !this.props.modalFromList
-        }));
+        this.props.modalCallbackFromList(!this.state.modal);
     }
 
 

@@ -60,8 +60,11 @@ class PlanPage extends Component {
         this.loadAvailablePlans();
         this.loadExpiredPlans();
         this.loadWaitingPlans();
-        // this.loadPlandetail();
     };
+
+    modalCallback = (modalFromPlan) => {
+        this.setState({modal: !modalFromPlan})
+    }
 
     render() { 
         return (
@@ -113,8 +116,11 @@ class PlanPage extends Component {
             <div className="buttonGroup">
                 <Button size="lg" color="success">Add</Button>
             </div>
-            <Plan modalFromList={this.state.modal}
-             plan={this.state.plan} plandetail={this.state.plandetail}/>
+            <Plan   modalFromList={this.state.modal}
+                    plan={this.state.plan} 
+                    plandetail={this.state.plandetail} 
+                    modalCallbackFromList={this.modalCallback.bind(this)}
+            />
         </div>
         );
     }

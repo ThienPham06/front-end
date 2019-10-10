@@ -1,20 +1,15 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
-import { async } from 'q';
+import axios from 'axios';
 
-const axios = require('axios').default;
-// axios.defaults.baseURL = "http://localhost:1234/api";
 axios.defaults.headers.common['Authorization'] = ACCESS_TOKEN;
 
-export async function login(username, password, role) {
-    return await axios.post(API_BASE_URL + '/auth/signin', {
+export function login(username, password) {
+    return axios.post(API_BASE_URL + '/auth/signin', {
         usernameOrId:username,
-        password:password,
-        adminOrStudent:role
+        password:password
     })
-      .then(res => {
-          console.log(res.status);
-          const status = res.status;
-          return status;       
+      .then(res => {      
+        return res.status;
       })
       .catch(err => {
           if(err.response){
@@ -24,7 +19,10 @@ export async function login(username, password, role) {
           else if (err.request){
               console.log(err.request);   
           }
-
+        // console.log(err.response.status);
+        // const errStatus = err.response.status;
+        // return errStatus;
+        
       });
 }
 
@@ -49,9 +47,11 @@ export async function getPlanByState(planState) {
             if(res.status===200){
                 const plans = res.data;
                 return plans;
-            }   
+            }
         })
- 
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 export async function getPlanById(planId){

@@ -1,16 +1,17 @@
-import { Form, FormGroup, Label, Button, FormFeedback } from 'reactstrap';
+import { Form, FormGroup, Label, Button, FormFeedback, Input } from 'reactstrap';
 import React, { Component } from 'react';
 import './LoginForm.css';
 import '../../util/API.js'
 import { login } from '../../util/API.js';
 import {withRouter} from 'react-router-dom';
+import {ACCESS_TOKEN } from '../../constant/index.js';
+
 
 class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            usernamePasswordValid: true,
-            selectedOption: 'admin',
+            error:false,
             id:''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,31 +20,50 @@ class LoginForm extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        login(this.refs.userIdInput.value, this.refs.passInput.value)
+        login(this.idInput.value, this.passInput.value)
             .then(res => {
-                this.props.history.push('/home');   
+                if(res===200){
+                    this.props.history.push('/home');
+                    sessionStorage.setItem(ACCESS_TOKEN, res.accessToken); 
+                    console.log(sessionStorage.getItem(ACCESS_TOKEN));
+                }else if(res===401){
+                    // window.location.reload();
+                    this.setState({error: !this.state.error})
+                }
             })
             .catch(err => {
-                this.setState({formErrors: err.res});
+                console.log(err);  
             });
-            
-            sessionStorage.setItem("id", this.refs.userIdInput.value);
+            sessionStorage.setItem("id", this.idInput.value);
         }
         
     render() { 
+        let errInput;
+        if(this.state.error===true){
+            errInput=<div>
+                <Label for="exampleUsername">User ID:  </Label>
+                <Input  type="text" name="userid" id="userid" invalid
+                        placeholder="User id" 
+                        innerRef={x=>(this.idInput=x)} />
+                <FormFeedback>User id or password is incorrect!</FormFeedback>
+            </div>
+        }else{
+            errInput=<div>
+                <Label for="exampleUsername">User ID:  </Label>
+                <Input  type="text" name="userid" id="userid"
+                    placeholder="User id" 
+                    innerRef={x=>(this.idInput=x)} />
+            </div> 
+        }
         return ( 
-        <Form onSubmit={this.handleSubmit} className="loginform" history={this.props.history} >
+        <Form onSubmit={(e)=>this.handleSubmit(e)} className="loginform" history={this.props.history} >
             <FormGroup>
-                <Label for="exampleUsername">User ID:  </Label><br></br>
-                <input type="text" name="userid" id="userid" 
-                    placeholder="User id" ref="userIdInput" />
-                <FormFeedback></FormFeedback>
+                {errInput}
             </FormGroup>
             <FormGroup>
-                <Label for="examplePassword">Password:  </Label><br></br>
-                <input type="password" name="password" id="password" 
-                    placeholder="Password" ref="passInput" />
-                <FormFeedback></FormFeedback>
+                <Label for="examplePassword">Password:  </Label>
+                <Input type="password" name="password" id="password" 
+                    placeholder="Password" innerRef={x=>(this.passInput=x)} />
             </FormGroup>
             <Button type = "submit" htmltype="submit" size="large" className="login-form-button">Login</Button>
         </Form>

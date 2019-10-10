@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../navbar/NavBar.css'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import {ACCESS_TOKEN } from '../../constant/index.js';
+import {withRouter} from 'react-router-dom';
 
 class NavBar extends Component {
     constructor(props) {
@@ -14,6 +16,11 @@ class NavBar extends Component {
           collapsed: !this.state.collapsed
         });
     };
+
+    onLogout = () => {
+        sessionStorage.removeItem(ACCESS_TOKEN);
+        this.props.history.push('/');
+    }
 
     render() { 
         return ( 
@@ -45,7 +52,7 @@ class NavBar extends Component {
                             <NavLink href=''>Setting</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href=''>Logout</NavLink>
+                            <NavLink href='' onClick={this.onLogout}>Logout</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
@@ -54,4 +61,4 @@ class NavBar extends Component {
     }
 }
  
-export default NavBar;
+export default withRouter(NavBar);
