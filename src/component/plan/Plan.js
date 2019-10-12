@@ -32,7 +32,7 @@ class Plan extends Component {
         }
         return ( 
             <Modal isOpen={this.props.modalFromList} toggle={this.toggle} >
-                <ModalHeader>Header</ModalHeader>
+                <ModalHeader>Plan detail</ModalHeader>
                 <ModalBody>
                     <Table>
                     <tr>

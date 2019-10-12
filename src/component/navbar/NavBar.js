@@ -19,6 +19,7 @@ class NavBar extends Component {
 
     onLogout = () => {
         sessionStorage.removeItem(ACCESS_TOKEN);
+        sessionStorage.removeItem("id");
         this.props.history.push('/');
     }
 

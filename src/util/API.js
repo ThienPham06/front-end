@@ -1,7 +1,7 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
 import axios from 'axios';
 
-axios.defaults.headers.common['Authorization'] = ACCESS_TOKEN;
+axios.defaults.headers.common['Authorization'] = 'Bearer'+ACCESS_TOKEN;
 
 export function login(username, password) {
     return axios.post(API_BASE_URL + '/auth/signin', {
@@ -18,11 +18,7 @@ export function login(username, password) {
           }
           else if (err.request){
               console.log(err.request);   
-          }
-        // console.log(err.response.status);
-        // const errStatus = err.response.status;
-        // return errStatus;
-        
+          }    
       });
 }
 
@@ -118,4 +114,6 @@ export async function getStudentDetailById(studentId){
         console.log(err);
     })
 }
+
+
 

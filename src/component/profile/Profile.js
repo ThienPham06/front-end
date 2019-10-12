@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, Button, Table} from 'reactstrap';
 import {getStudentById, getAdminById, getStudentDetailById} from '../../util/API';
+import NavBar from '../navbar/NavBar';
 
 class Profile extends Component {
     constructor(props) {
@@ -85,6 +86,8 @@ class Profile extends Component {
         </Table>
         }
         return ( 
+            <div>
+            <NavBar />
             <Container>
                 <Row>
                     <Col xs="6">
@@ -101,6 +104,7 @@ class Profile extends Component {
                     </Col>
                 </Row>
             </Container>
+            </div>
         );
     }
 }

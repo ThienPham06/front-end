@@ -19,13 +19,9 @@ class PlanPage extends Component {
             planid:'',
             modal: false,
         }
-        this.loadAvailablePlans = this.loadAvailablePlans.bind(this)
-        this.loadExpiredPlans = this.loadExpiredPlans.bind(this)
-        this.loadWaitingPlans = this.loadWaitingPlans.bind(this)
-        this.handleToggle = this.handleToggle.bind(this)
     };
 
-    handleToggle(e){
+    handleToggle=(e)=>{
         e.preventDefault();
         this.setState(prevState => ({
             modal: !prevState.modal,
@@ -38,19 +34,19 @@ class PlanPage extends Component {
         })
     }
 
-    loadAvailablePlans(){
+    loadAvailablePlans=()=>{
         getPlanByState("available").then(response => {
             this.setState({availablePlans: response});
         })
     };
 
-    loadExpiredPlans(){
+    loadExpiredPlans=()=>{
         getPlanByState("expired").then(response => {
             this.setState({expiredPlans: response});
         })
     };
 
-    loadWaitingPlans(){
+    loadWaitingPlans=()=>{
         getPlanByState("").then(response => {
             this.setState({waitingPlans: response});
         })
@@ -114,13 +110,16 @@ class PlanPage extends Component {
             </Container>
             </div><br></br>
             <div className="buttonGroup">
-                <Button size="lg" color="success">Add</Button>
+                <Button size="lg" color="success" href="/planpage/create">Create request</Button>
             </div>
             <Plan   modalFromList={this.state.modal}
                     plan={this.state.plan} 
                     plandetail={this.state.plandetail} 
                     modalCallbackFromList={this.modalCallback.bind(this)}
             />
+            {/* <PlanRequest modalFromList={this.state.modal} 
+                         modalCallbackFromList={this.modalCallback.bind(this)}
+            /> */}
         </div>
         );
     }
