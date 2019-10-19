@@ -7,3 +7,7 @@
 .buttonGr {
     text-align: center;
 }
+
+.err {
+    color: red;
+}

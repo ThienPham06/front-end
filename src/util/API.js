@@ -1,7 +1,9 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
 import axios from 'axios';
 
-axios.defaults.headers.common['Authorization'] = 'Bearer'+ACCESS_TOKEN;
+axios.defaults.headers.common['Authorization'] = 'Bearer'+ ACCESS_TOKEN;
+// axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.headers.common['Accept'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
 export function login(username, password) {
     return axios.post(API_BASE_URL + '/auth/signin', {
@@ -115,5 +117,12 @@ export async function getStudentDetailById(studentId){
     })
 }
 
-
+export function createRequest(planRequest){
+    return axios.post(API_BASE_URL + '/plans', planRequest,
+    ).then(res=>{
+        return res.data.success;
+    }).catch(err=>{
+        return err.status;
+    })
+} 
 

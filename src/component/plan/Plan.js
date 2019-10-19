@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import {withRouter} from 'react-router-dom';
-// import NavBar from '../navbar/NavBar';
-// import { getPlandetailByPlanId } from '../../util/API';
 
 class Plan extends Component {
     constructor(props) {
