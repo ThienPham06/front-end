@@ -18,6 +18,7 @@ class PlanPage extends Component {
             plandetail:[],
             planid:'',
             modal: false,
+            role:''
         }
     };
 
@@ -56,6 +57,7 @@ class PlanPage extends Component {
         this.loadAvailablePlans();
         this.loadExpiredPlans();
         this.loadWaitingPlans();
+        this.setState({role: sessionStorage.getItem("role")});
     };
 
     modalCallback = (modalFromPlan) => {
@@ -63,6 +65,11 @@ class PlanPage extends Component {
     }
 
     render() { 
+        let button;
+        if(this.state.role==="ADMIN")
+            button = <Button size="lg" color="success" href="/planpage/create">Create request</Button>;
+        else
+            button = <Button size="lg" color="success" href="/notfound">Create request</Button>;
         return (
         <div>
             <NavBar />
@@ -110,7 +117,7 @@ class PlanPage extends Component {
             </Container>
             </div><br></br>
             <div className="buttonGroup">
-                <Button size="lg" color="success" href="/planpage/create">Create request</Button>
+                {button}
             </div>
             <Plan   modalFromList={this.state.modal}
                     plan={this.state.plan} 

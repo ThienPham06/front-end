@@ -11,11 +11,9 @@ class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            error:false,
-            id:''
+            error:false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        
     }
 
     handleSubmit(event){
@@ -25,9 +23,7 @@ class LoginForm extends Component {
                 if(res===200){
                     this.props.history.push('/home');
                     sessionStorage.setItem(ACCESS_TOKEN, res.accessToken); 
-                    console.log(sessionStorage.getItem(ACCESS_TOKEN));
                 }else if(res===401){
-                    // window.location.reload();
                     this.setState({error: !this.state.error})
                 }
             })
@@ -35,6 +31,7 @@ class LoginForm extends Component {
                 console.log(err);  
             });
             sessionStorage.setItem("id", this.idInput.value);
+            
         }
         
     render() { 

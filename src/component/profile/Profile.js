@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, Button, Table} from 'reactstrap';
 import {getStudentById, getAdminById, getStudentDetailById} from '../../util/API';
-import NavBar from '../navbar/NavBar';
 
 class Profile extends Component {
     constructor(props) {
@@ -17,14 +16,17 @@ class Profile extends Component {
 
     loadStudent=(id)=>{
         getStudentById(id).then(response=>{
-            this.setState({student: response})
+            this.setState({student: response})   
         })
     }
 
     loadStudentDetail = (id) => {
-        getStudentDetailById(id).then(response=>{
-            this.setState({studentDetail: response})
-        })
+        if(this.state.admin!=="STD-NaN"){
+            getStudentDetailById(id).then(response=>{
+                this.setState({studentDetail: response})
+            })
+        }
+  
     }
 
     loadAdmin=(id)=>{
@@ -33,15 +35,19 @@ class Profile extends Component {
         })
     }
 
+
     componentDidMount(){
-        this.loadStudent(sessionStorage.getItem("id"));
         this.loadAdmin(sessionStorage.getItem("id"));
-        this.loadStudentDetail(sessionStorage.getItem("id"));
+        this.loadStudent(sessionStorage.getItem("id")); 
+        this.loadStudentDetail(sessionStorage.getItem("id"))
     }
 
-    render() { 
+
+
+    render() {
+
         let table;
-        if(this.state.student==="STD-NaN"){
+        if(this.state.admin!=="ADN-NaN"){
             table=<Table>
             <tr>
                 <td>Admin ID: </td>
@@ -61,7 +67,6 @@ class Profile extends Component {
             </tr>
         </Table>
         }else{
-            
             table=<Table>
             <tr>
                 <td>Student ID: </td>
@@ -87,7 +92,7 @@ class Profile extends Component {
         }
         return ( 
             <div>
-            <NavBar />
+            {/* <NavBar /> */}
             <Container>
                 <Row>
                     <Col xs="6">

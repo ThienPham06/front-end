@@ -9,6 +9,7 @@ import HomePage from './component/home/HomePage';
 import PlanPage from './component/plan/PlanPage';
 import Profile from './component/profile/ProfilePage';
 import PlanRequest from './component/plan/PlanRequest';
+import NotFound from './util/NotFound';
 
 const routing = (
     <BrowserRouter>
@@ -18,6 +19,7 @@ const routing = (
             <Route exact path="/planpage" component = { PlanPage} />
             <Route exact path="/profile" component = { Profile } />
             <Route path="/planpage/create" component = { PlanRequest } />
+            <Route path="/notfound" component={ NotFound } />
         </div>
     </BrowserRouter>
 )

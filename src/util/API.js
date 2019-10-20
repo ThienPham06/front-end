@@ -87,7 +87,7 @@ export async function getStudentById(studentId){
             return std;
         }
     }).catch(err=>{
-        console.log(err);
+        return err.status;
     })
 }
 
@@ -100,7 +100,7 @@ export async function getAdminById(adminId){
             return ad;
         }
     }).catch(err=>{
-        console.log(err);
+        return err.status;
     })
 }
 
@@ -113,7 +113,7 @@ export async function getStudentDetailById(studentId){
             return stdl;
         }
     }).catch(err=>{
-        console.log(err);
+        return err.status;
     })
 }
 

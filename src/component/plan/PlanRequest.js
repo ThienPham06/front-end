@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Button, Form, FormGroup, FormFeedback, Label, Input} from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import {withRouter} from 'react-router-dom';
 import NavBar from '../navbar/NavBar';
 import './PlanRequest.css';
@@ -151,8 +151,7 @@ class PlanRequest extends Component {
                 </FormGroup>
                 <FormGroup className='buttonGr'>
                     {subBut} {' '}
-                    {/* <Button color="success" onClick={this.handleSubmit}>Submit</Button>{" "} */}
-                    <Button >Cancel</Button>
+                    <Button href='/planpage' >Cancel</Button>
                 </FormGroup>
             </Form>
             </div>
