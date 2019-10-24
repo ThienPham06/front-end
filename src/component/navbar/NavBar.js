@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import '../navbar/NavBar.css'
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Badge } from 'reactstrap';
 import {ACCESS_TOKEN } from '../../constant/index.js';
 import {withRouter} from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDatabase, faFileAlt, faHistory, faFileMedical } from '@fortawesome/free-solid-svg-icons';
 
 class NavBar extends Component {
     constructor(props) {
@@ -30,29 +32,35 @@ class NavBar extends Component {
                     <img src='/images/logo.png' />
                 </NavbarBrand>
                 <Nav>
-                    <NavItem>
-                        <NavLink href="">Manage</NavLink>
+                    <NavItem className="db">
+                        <FontAwesomeIcon icon={faDatabase} /> <a href="">Dashboard</a>
                     </NavItem>
-                    <NavItem>
-                        <NavLink href="/planpage">Plan</NavLink>
+                    <NavItem className="pl">
+                        <FontAwesomeIcon icon={faFileAlt} /> <a href="/planpage">Plan</a>
+                        <Badge className="notify" color="danger" pill>
+                            {this.props.planCounting}
+                        </Badge>
                     </NavItem>
-                    <NavItem>
-                        <NavLink href="">Ticket</NavLink>
+                    <NavItem className="tk">
+                        <FontAwesomeIcon icon={faFileMedical} /> <a href="">Ticket</a>
                     </NavItem>
-                    <NavItem>
-                        <NavLink href="">History</NavLink>
+                    <NavItem className="hs">
+                        <FontAwesomeIcon icon={faHistory} /> <a href="">History</a>
                     </NavItem>
                 </Nav>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                 <Collapse isOpen={this.state.collapsed} navbar>
                     <Nav navbar>
                         <NavItem>
+                            <i class="fa fa-user-circle"></i>
                             <NavLink href='/profile'>Profile</NavLink>
                         </NavItem>
                         <NavItem>
+                            <i class="fa fa-cog"></i>
                             <NavLink href=''>Setting</NavLink>
                         </NavItem>
                         <NavItem>
+                            <i class="fa fa-sign-out-alt"></i>
                             <NavLink href='' onClick={this.onLogout}>Logout</NavLink>
                         </NavItem>
                     </Nav>

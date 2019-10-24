@@ -1,5 +1,6 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
 import axios from 'axios';
+import { async } from 'q';
 
 axios.defaults.headers.common['Authorization'] = 'Bearer'+ ACCESS_TOKEN;
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -126,3 +127,22 @@ export function createRequest(planRequest){
     })
 } 
 
+export async function approveRequest(planId){
+    return axios.put(API_BASE_URL + '/plans/approve/' + planId, {
+        planId:planId
+    }).then(res=>{
+        return res.data.success;
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function rejectRequest(planId){
+    return axios.put(API_BASE_URL + '/plans/reject' + planId, {
+        planId:planId
+    }).then(res=>{
+        return res.data.success;
+    }).catch(err=>{
+        return err.status;
+    })
+}

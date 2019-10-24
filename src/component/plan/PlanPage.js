@@ -18,7 +18,8 @@ class PlanPage extends Component {
             plandetail:[],
             planid:'',
             modal: false,
-            role:''
+            role:'',
+            planCount:''
         }
     };
 
@@ -48,8 +49,10 @@ class PlanPage extends Component {
     };
 
     loadWaitingPlans=()=>{
-        getPlanByState("").then(response => {
+        getPlanByState("waiting").then(response => {
             this.setState({waitingPlans: response});
+            this.setState({planCount:response.length});
+            sessionStorage.setItem("wtPlan", response.length);
         })
     };
 
@@ -57,7 +60,8 @@ class PlanPage extends Component {
         this.loadAvailablePlans();
         this.loadExpiredPlans();
         this.loadWaitingPlans();
-        this.setState({role: sessionStorage.getItem("role")});
+        this.setState({role: sessionStorage.getItem("role")}); 
+        sessionStorage.setItem("wtPlan",this.state.planCount);
     };
 
     modalCallback = (modalFromPlan) => {
@@ -72,7 +76,7 @@ class PlanPage extends Component {
             button = <Button size="lg" color="success" href="/notfound">Create request</Button>;
         return (
         <div>
-            <NavBar />
+            <NavBar planCounting = {this.state.planCount}/>
             <div>
             <Container>
                 <Row>
@@ -124,9 +128,6 @@ class PlanPage extends Component {
                     plandetail={this.state.plandetail} 
                     modalCallbackFromList={this.modalCallback.bind(this)}
             />
-            {/* <PlanRequest modalFromList={this.state.modal} 
-                         modalCallbackFromList={this.modalCallback.bind(this)}
-            /> */}
         </div>
         );
     }

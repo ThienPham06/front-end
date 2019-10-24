@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import {withRouter} from 'react-router-dom';
+import {approveRequest, rejectRequest} from '../../util/API';
+import swal from '@sweetalert/with-react';
 
 class Plan extends Component {
     constructor(props) {
@@ -15,6 +17,61 @@ class Plan extends Component {
         this.props.modalCallbackFromList(!this.state.modal);
     }
 
+    handleApprove = (event) => {
+        event.preventDefault();
+        if(sessionStorage.getItem("role")==='ADMIN'){
+            approveRequest(this.props.plan.planId).then(res=>{
+                if(res===true){
+                    swal({
+                        title: "Successfully!",
+                        text: "Plan request has been approved! Now it's available!",
+                        icon: "success",
+                        button: "OK",
+                      }).then(()=>{
+                        this.toggle();
+                        window.location.reload();
+                      })
+                }else{
+                    swal({
+                        title: "Error!",
+                        text: "Oops...! Something went wrong! Plz try again!",
+                        icon: "error",
+                        button: "OK",
+                      });
+                }
+            })
+        }else{
+            this.props.history.push("/notfound");
+        }
+    }
+
+    handleReject = (event) => {
+        event.preventDefault();
+        if(sessionStorage.getItem("role")==='ADMIN'){
+            rejectRequest(this.props.plan.planId).then(res=>{
+                if(res===true){
+                    swal({
+                        title: "Successfully!",
+                        text: "Plan request has been rejected! ",
+                        icon: "success",
+                        button: "OK",
+                      }).then(()=>{
+                        this.toggle();
+                        window.location.reload();
+                      })
+                }else{
+                    swal({
+                        title: "Error!",
+                        text: "Oops...! Something went wrong! Plz try again!",
+                        icon: "error",
+                        button: "OK",
+                      });
+                }
+            })
+        }else{
+            this.props.history.push("/notfound");
+        }        
+    }
 
     render() { 
         let button;
@@ -24,8 +81,8 @@ class Plan extends Component {
             button=<Button color="danger">Delete</Button>
         }else{
             button=<div>
-                <Button color="success">Approve</Button>{" "}
-                <Button color="danger">Reject</Button>
+                <Button color="success" onClick={(e)=>this.handleApprove(e)}>Approve</Button>{" "}
+                <Button color="danger" onClick={(e)=>this.handleReject(e)}>Reject</Button>
             </div>
         }
         return ( 

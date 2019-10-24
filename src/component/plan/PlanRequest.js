@@ -36,7 +36,7 @@ class PlanRequest extends Component {
     handleChange = (event) => {
         event.preventDefault();
         const { name, value } = event.target;
-        var valid = this.getValidStringDate(6);
+        var valid = this.getValidStringDate(14);
         var input = this.dateInput.value;
         let errors = this.state.errors;
         switch(name){
@@ -44,7 +44,7 @@ class PlanRequest extends Component {
                 errors.planid = value.length > 5 ? 'Plan ID must less than 5 characters!' : '';
                 break;
             case 'planDate':
-                errors.date = Date.parse(input) <= Date.parse(valid) ? 'Date have to more 6 days from today!' : ''; 
+                errors.date = Date.parse(input) <= Date.parse(valid) ? 'Date have to be 14 days more from today!' : ''; 
                 break;
         }
         this.setState({errors, [name]: value});
@@ -94,7 +94,7 @@ class PlanRequest extends Component {
         }
         return ( 
         <div>
-            <NavBar /><br></br>
+            <NavBar planCounting={sessionStorage.getItem("wtPlan")}/><br></br>
             <div  className='title'><Label>Create a plan request:</Label></div>
             <Form>
                 <FormGroup row>
