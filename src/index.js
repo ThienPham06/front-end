@@ -7,10 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route } from "react-router-dom";
 import HomePage from './component/home/HomePage';
 import PlanPage from './component/plan/PlanPage';
-import Profile from './component/profile/ProfilePage';
 import PlanRequest from './component/plan/PlanRequest';
 import NotFound from './util/NotFound';
-
+import Profile from './component/profile/Profile';
 const routing = (
     <BrowserRouter>
         <div>

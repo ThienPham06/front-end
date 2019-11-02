@@ -2,24 +2,26 @@ import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import NavBar from '../navbar/NavBar';
 import { ListGroup, ListGroupItem, Container, Row, Col, Button } from 'reactstrap';
-import { getPlanByState, getPlandetailByPlanId } from '../../util/API';
+import { getPlanByState, getPlandetailByPlanId, countWaitingTicket } from '../../util/API';
 import './PlanPage.css'
 import Plan from './Plan';
+import LoadingSpinner from '../spinner/LoadingSpinner';
+import ActionButton from '../action_button/ActionButton'
 
 class PlanPage extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            isLoading: false,
+            isLoading: true,
             availablePlans: [],
-            expiredPlans: [],
+            closedPlans: [],
             waitingPlans: [],
             plan: [],
             plandetail:[],
             planid:'',
             modal: false,
             role:'',
-            planCount:''
+            ticketCount:''
         }
     };
 
@@ -29,6 +31,7 @@ class PlanPage extends Component {
             modal: !prevState.modal,
           }));
     };
+
 
     loadPlandetail = (id) => {
         getPlandetailByPlanId(id).then(response=>{
@@ -40,11 +43,12 @@ class PlanPage extends Component {
         getPlanByState("available").then(response => {
             this.setState({availablePlans: response});
         })
+
     };
 
-    loadExpiredPlans=()=>{
-        getPlanByState("expired").then(response => {
-            this.setState({expiredPlans: response});
+    loadClosedPlans=()=>{
+        getPlanByState("closed").then(response => {
+            this.setState({closedPlans: response});
         })
     };
 
@@ -53,19 +57,29 @@ class PlanPage extends Component {
             this.setState({waitingPlans: response});
             this.setState({planCount:response.length});
             sessionStorage.setItem("wtPlan", response.length);
+
         })
     };
 
     componentDidMount(){
         this.loadAvailablePlans();
-        this.loadExpiredPlans();
+        this.loadClosedPlans();
         this.loadWaitingPlans();
         this.setState({role: sessionStorage.getItem("role")}); 
         sessionStorage.setItem("wtPlan",this.state.planCount);
+        this.setState({isLoading:false});
+        
     };
 
     modalCallback = (modalFromPlan) => {
         this.setState({modal: !modalFromPlan})
+    }
+
+    ticketProgress = (planid) => {
+        countWaitingTicket(planid)
+        .then(response=>{
+            this.setState({ticketCount: JSON.stringify(response.data)});
+        })
     }
 
     render() { 
@@ -74,16 +88,24 @@ class PlanPage extends Component {
             button = <Button size="lg" color="success" href="/planpage/create">Create request</Button>;
         else
             button = <Button size="lg" color="success" href="/notfound">Create request</Button>;
+        
+        if(this.state.isLoading===true)
+            return(
+                <LoadingSpinner />
+            )
+        else {
         return (
         <div>
-            <NavBar planCounting = {this.state.planCount}/>
+            <NavBar planCounting = {this.state.planCount}/><br></br>
+            <ActionButton avaiPlans= {this.state.plan}/><br></br>
             <div>
             <Container>
                 <Row>
                     <Col xs="6" sm="4"> Waiting plans
                         <ListGroup>
                             {this.state.waitingPlans.map((plan, index)=>{
-                                return(<ListGroupItem key={index} onClick={(e)=>{
+                                return(
+                                <ListGroupItem key={index} onClick={(e)=>{
                                     this.handleToggle(e);
                                     this.setState({plan: plan});                             
                                     this.loadPlandetail(plan.planId)}} >
@@ -96,19 +118,24 @@ class PlanPage extends Component {
                     <Col xs="6" sm="4"> Available plans
                         <ListGroup>
                             {this.state.availablePlans.map((plan, index)=>{
-                                return(<ListGroupItem key={index} onClick={(e)=>{
+                                return(
+                                <ListGroupItem key={index} onClick={(e)=>{
                                     this.handleToggle(e);
                                     this.setState({plan: plan});
-                                    this.loadPlandetail(plan.planId)}}>
+                                    this.loadPlandetail(plan.planId);
+                                    this.ticketProgress(plan.planId);
+                                    }}>
                                     { plan.planId }
-                                </ListGroupItem>);
+                                </ListGroupItem>
+                                );
                             })}
                         </ListGroup>
                     </Col>
-                    <Col sm="4"> Expired plans
+                    <Col sm="4"> Closed plans
                         <ListGroup>
-                            {this.state.expiredPlans.map((plan, index)=>{
-                                return(<ListGroupItem key={index} onClick={(e)=>{
+                            {this.state.closedPlans.map((plan, index)=>{
+                                return(
+                                <ListGroupItem key={index} onClick={(e)=>{
                                     this.handleToggle(e);
                                     this.setState({plan: plan});
                                     this.loadPlandetail(plan.planId)}}>
@@ -127,9 +154,11 @@ class PlanPage extends Component {
                     plan={this.state.plan} 
                     plandetail={this.state.plandetail} 
                     modalCallbackFromList={this.modalCallback.bind(this)}
+                    count={this.state.ticketCount}
             />
         </div>
         );
+        }
     }
 }
  

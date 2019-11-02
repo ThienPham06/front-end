@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table, Progress } from 'reactstrap';
 import {withRouter} from 'react-router-dom';
-import {approveRequest, rejectRequest} from '../../util/API';
+import {approveRequest, rejectRequest, createTicket} from '../../util/API';
 import swal from '@sweetalert/with-react';
 
 class Plan extends Component {
@@ -9,12 +9,22 @@ class Plan extends Component {
         super(props);
         this.state = { 
             isLoading:false,
-            modal: this.props.modalFromList
+            modal: this.props.modalFromList,
+            ticketRequest: {
+                planId:'', studentId:''
+            },
+            ticketCount:''
         };
     }
 
     toggle = () => {
         this.props.modalCallbackFromList(!this.state.modal);
+    }
+
+    validateRegis = (count, quantity) => {
+        var a = parseInt(count);
+        if(a>=quantity)
+            return true;
     }
 
     handleApprove = (event) => {
@@ -73,10 +83,70 @@ class Plan extends Component {
         }        
     }
 
+    handleRegister = (event) => {
+        event.preventDefault();
+        const {ticketRequest} = this.state;
+        ticketRequest.planId = this.props.plan.planId;
+        ticketRequest.studentId = sessionStorage.getItem("id");
+ 
+        if(sessionStorage.getItem("role")==='ADMIN'){
+            this.props.history.push("/notfound");
+        }else{
+            if(this.validateRegis(this.props.count, this.props.plan.quantity)){
+                swal({
+                    title: "Warning!",
+                    text: "This plan is full of waiting tickets and can not be registed! Refresh to looking for a chance!",
+                    icon: "warning",
+                    button: "OK",
+                  })
+            }else{
+            createTicket(ticketRequest).then(res=>{ 
+                if(res==="sc"){
+                    swal({
+                        title: "Successfully!",
+                        text: "Registered plan successfully! Now waiting for the day! :)",
+                        icon: "success",
+                        button: "OK",
+                      }).then(()=>{
+                        this.toggle();
+                        
+                      })
+                }else if(res==="ex"){
+                    swal({
+                        title: "Error!",
+                        text: "You registerd this plan before, please check again! thiện nè",
+                        icon: "error",
+                        button: "OK",
+                      }).then(()=>{
+                        this.toggle();
+                      })
+                }else {
+                    swal({
+                        title: "Error!",
+                        text: "Registered unsuccessfully! You had 2 tickets are waiting!",
+                        icon: "error",
+                        button: "OK",
+                      }).then(()=>{
+                        this.toggle();
+                      })
+                } 
+            })
+        }
+        } 
+    }
+
+    componentDidMount(){
+        console.log(this.validateRegis(this.props.count, this.props.plan.planId));
+        
+    }
+
+
+
     render() { 
+            
         let button;
         if(this.props.plan.planState==='available'){
-            button=<Button color="success">Register</Button>
+            button=<Button color="success" onClick={(e)=>this.handleRegister(e)}>Register</Button>
         }else if(this.props.plan.planState==='expired'){
             button=<Button color="danger">Delete</Button>
         }else{
@@ -107,8 +177,25 @@ class Plan extends Component {
                         <th>{this.props.plan.planState}</th>
                     </tr>
                     <tr>
+                        <th>Số lượng dự kiến: </th>
+                        <th>{this.props.plan.quantity}</th>
+                    </tr>
+                    <tr>
                         <th>Contact: </th>
                         <th>{this.props.plandetail.plandContact}</th>
+                    </tr>
+                    <tr>
+                        <th>Tiến trình đăng ký: </th>
+                        <th>
+                            <p className="counter">{this.props.count}/{this.props.plan.quantity}</p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <Progress bar color="success" value={this.props.count} 
+                                    max={this.props.plan.quantity}>{this.props.count}/{this.props.plan.quantity}</Progress>
+                        </th>
                     </tr>
                     </Table>
                 </ModalBody>

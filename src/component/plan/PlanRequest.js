@@ -29,10 +29,6 @@ class PlanRequest extends Component {
         return year + '-' + month + '-' + day;
     }
 
-    checkInput = () => {
-
-    }
-
     handleChange = (event) => {
         event.preventDefault();
         const { name, value } = event.target;

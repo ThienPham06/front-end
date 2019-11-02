@@ -1,3 +1,7 @@
 .buttonGroup {
     margin-left: 50%;
 }
+
+.counter {
+    text-align: right;
+}

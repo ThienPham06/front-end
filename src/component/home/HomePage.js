@@ -4,12 +4,13 @@ import SlideShow from '../sildeshow/SlideShow';
 import './HomePage.css';
 import NavBar from '../navbar/NavBar';
 import {getAdminById} from '../../util/API';
+import LoadingSpinner from '../spinner/LoadingSpinner';
 
 class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
+            isLoading: true,
             currentRole:''
         }
     }
@@ -30,15 +31,22 @@ class HomePage extends Component {
 
     componentDidMount(){
         this.setRole();
+        this.setState({isLoading:false})
     }
 
     render() { 
+        if(this.state.isLoading)
+            return(
+                <LoadingSpinner />
+            )
+        else {
         return ( 
         <div>
-            <NavBar />
+            <NavBar planCounting={sessionStorage.getItem("wtPlan")}/>
             <SlideShow />
         </div>
         );
+        }
     }
 }
  

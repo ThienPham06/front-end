@@ -52,15 +52,15 @@ class NavBar extends Component {
                 <Collapse isOpen={this.state.collapsed} navbar>
                     <Nav navbar>
                         <NavItem>
-                            <i class="fa fa-user-circle"></i>
+                            <i className="fa fa-user-circle"></i>
                             <NavLink href='/profile'>Profile</NavLink>
                         </NavItem>
                         <NavItem>
-                            <i class="fa fa-cog"></i>
+                            <i className="fa fa-cog"></i>
                             <NavLink href=''>Setting</NavLink>
                         </NavItem>
                         <NavItem>
-                            <i class="fa fa-sign-out-alt"></i>
+                            <i className="fa fa-sign-out-alt"></i>
                             <NavLink href='' onClick={this.onLogout}>Logout</NavLink>
                         </NavItem>
                     </Nav>
