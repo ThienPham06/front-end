@@ -49,6 +49,8 @@ class PlanPage extends Component {
     loadClosedPlans=()=>{
         getPlanByState("closed").then(response => {
             this.setState({closedPlans: response});
+            this.setState({closedPlanCount:response.length});
+            sessionStorage.setItem("clPlan", response.length);
         })
     };
 
@@ -84,11 +86,64 @@ class PlanPage extends Component {
 
     render() { 
         let button;
+        let listgrpwt;
+        let listgrpav;
+        let listgrpcl;
         if(this.state.role==="ADMIN")
             button = <Button size="lg" color="success" href="/planpage/create">Create request</Button>;
         else
             button = <Button size="lg" color="success" href="/notfound">Create request</Button>;
         
+        if(this.state.waitingPlans.length===0)
+            listgrpwt = <ListGroup><ListGroupItem>Do not have any waiting plan yet...</ListGroupItem></ListGroup>
+        else
+            listgrpwt =                         <ListGroup>
+            {this.state.waitingPlans.map((plan, index)=>{
+                return(
+                <ListGroupItem key={index} onClick={(e)=>{
+                    this.handleToggle(e);
+                    this.setState({plan: plan});                             
+                    this.loadPlandetail(plan.planId)}} >
+                    { plan.planId }
+                </ListGroupItem>
+                );
+            })}
+        </ListGroup>;
+
+        if(this.state.availablePlans.length===0)
+            listgrpav = <ListGroup><ListGroupItem>Do not have any available plan yet...</ListGroupItem></ListGroup>
+        else
+            listgrpav =                         <ListGroup>
+            {this.state.availablePlans.map((plan, index)=>{
+                return(
+                <ListGroupItem key={index} onClick={(e)=>{
+                    this.handleToggle(e);
+                    this.setState({plan: plan});
+                    this.loadPlandetail(plan.planId);
+                    this.ticketProgress(plan.planId);
+                    }}>
+                    { plan.planId }
+                </ListGroupItem>
+                );
+            })}
+        </ListGroup>;
+
+        if(this.state.closedPlans.length===0)
+            listgrpcl = <ListGroup><ListGroupItem>Do not have any closed plan yet...</ListGroupItem></ListGroup>
+        else
+            listgrpcl =                         <ListGroup>
+            {this.state.closedPlans.map((plan, index)=>{
+                return(
+                <ListGroupItem key={index} onClick={(e)=>{
+                    this.handleToggle(e);
+                    this.setState({plan: plan});
+                    this.loadPlandetail(plan.planId)}}>
+                    { plan.planId } 
+                </ListGroupItem>);
+            })}
+        </ListGroup>;
+
+
         if(this.state.isLoading===true)
             return(
                 <LoadingSpinner />
@@ -96,53 +151,21 @@ class PlanPage extends Component {
         else {
         return (
         <div>
-            <NavBar planCounting = {this.state.planCount}/><br></br>
-            <ActionButton avaiPlans= {this.state.plan}/><br></br>
+            <NavBar planCounting = {this.state.planCount}
+                    closedPlanCounting = {this.state.closedPlanCount}
+            /><br></br>
+            <ActionButton /><br></br>
             <div>
             <Container>
                 <Row>
                     <Col xs="6" sm="4"> Waiting plans
-                        <ListGroup>
-                            {this.state.waitingPlans.map((plan, index)=>{
-                                return(
-                                <ListGroupItem key={index} onClick={(e)=>{
-                                    this.handleToggle(e);
-                                    this.setState({plan: plan});                             
-                                    this.loadPlandetail(plan.planId)}} >
-                                    { plan.planId }
-                                </ListGroupItem>
-                                );
-                            })}
-                        </ListGroup>
+                        {listgrpwt}
                     </Col>
                     <Col xs="6" sm="4"> Available plans
-                        <ListGroup>
-                            {this.state.availablePlans.map((plan, index)=>{
-                                return(
-                                <ListGroupItem key={index} onClick={(e)=>{
-                                    this.handleToggle(e);
-                                    this.setState({plan: plan});
-                                    this.loadPlandetail(plan.planId);
-                                    this.ticketProgress(plan.planId);
-                                    }}>
-                                    { plan.planId }
-                                </ListGroupItem>
-                                );
-                            })}
-                        </ListGroup>
+                        {listgrpav}
                     </Col>
                     <Col sm="4"> Closed plans
-                        <ListGroup>
-                            {this.state.closedPlans.map((plan, index)=>{
-                                return(
-                                <ListGroupItem key={index} onClick={(e)=>{
-                                    this.handleToggle(e);
-                                    this.setState({plan: plan});
-                                    this.loadPlandetail(plan.planId)}}>
-                                    { plan.planId } 
-                                </ListGroupItem>);
-                            })}
-                        </ListGroup>
+                        {listgrpcl}
                     </Col>
                 </Row>
             </Container>

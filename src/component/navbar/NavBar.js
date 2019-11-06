@@ -20,15 +20,20 @@ class NavBar extends Component {
     };
 
     onLogout = () => {
-        sessionStorage.removeItem(ACCESS_TOKEN);
-        sessionStorage.removeItem("id");
+        sessionStorage.clear();
         this.props.history.push('/');
     }
 
     render() { 
+        let ticketNav;
+        if(sessionStorage.getItem('role')==="ADMIN")
+            ticketNav = "/ticketpage"
+        else if(sessionStorage.getItem('role')==="STUDENT")
+            ticketNav = "/notfound"
+
         return ( 
             <Navbar color="faded" light className="navbar">
-                <NavbarBrand className="mr-auto">
+                <NavbarBrand className="mr-auto"  href='/home'>
                     <img src='/images/logo.png' />
                 </NavbarBrand>
                 <Nav>
@@ -42,7 +47,10 @@ class NavBar extends Component {
                         </Badge>
                     </NavItem>
                     <NavItem className="tk">
-                        <FontAwesomeIcon icon={faFileMedical} /> <a href="">Ticket</a>
+                        <FontAwesomeIcon icon={faFileMedical} /> <a href={ticketNav}>Check</a>
+                        <Badge className="notify" color="danger" pill>
+                            {this.props.closedPlanCounting}
+                        </Badge>
                     </NavItem>
                     <NavItem className="hs">
                         <FontAwesomeIcon icon={faHistory} /> <a href="">History</a>

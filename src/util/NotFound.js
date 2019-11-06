@@ -8,7 +8,8 @@ class NotFound extends Component {
     render() { 
         return (
         <div>
-            <NavBar /><br></br>
+            <NavBar planCounting = {sessionStorage.getItem("wtPlan")}
+                    closedPlanCounting={sessionStorage.getItem("clPlan")}/><br></br>
             <div className="page-not-found">
                 <h1 className="title">
                     401

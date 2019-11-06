@@ -97,7 +97,9 @@ class Profile extends Component {
         }
         return ( 
             <div>
-            <NavBar planCounting={sessionStorage.getItem("wtPlan")}/>
+            <NavBar planCounting={sessionStorage.getItem("wtPlan")}
+                    closedPlanCounting={sessionStorage.getItem("clPlan")}
+            />
             <Container>
                 <Row>
                     <Col xs="6">

@@ -42,7 +42,9 @@ class HomePage extends Component {
         else {
         return ( 
         <div>
-            <NavBar planCounting={sessionStorage.getItem("wtPlan")}/>
+            <NavBar planCounting={sessionStorage.getItem("wtPlan")}
+                    closedPlanCounting = {sessionStorage.getItem("clPlan")}
+            />
             <SlideShow />
         </div>
         );

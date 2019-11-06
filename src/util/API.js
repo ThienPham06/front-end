@@ -164,3 +164,47 @@ export async function countWaitingTicket(planid){
         return err.status;
     })
 }
+
+export async function getWaitingTickets(planid){
+    return await axios.get(API_BASE_URL + '/tickets/waiting/' + planid, {
+        planid:planid
+    }).then(res=>{
+        if(res.status===200)
+            return res.data;
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function getStudentByTicket(ticketid){
+    return await axios.get(API_BASE_URL + '/tickets/student/' + ticketid, {
+        ticketid:ticketid
+    }).then(res=>{
+        if(res.status===200)
+        return res.data;
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function approveTicket(ticketid, adminid){
+    return await axios.put(API_BASE_URL + '/tickets/approve/' + ticketid + '/' + adminid, {
+        ticketid:ticketid,
+        adminid:adminid
+    }).then(res=>{
+        return res.data.success;
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function rejectTicket(ticketid, adminid){
+    return await axios.put(API_BASE_URL + '/tickets/reject/' + ticketid + '/' + adminid, {
+        ticketid:ticketid,
+        adminid:adminid
+    }).then(res=>{
+        return res.data.success;
+    }).catch(err=>{
+        return err.status;
+    })
+}

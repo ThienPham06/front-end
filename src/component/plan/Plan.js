@@ -109,12 +109,12 @@ class Plan extends Component {
                         button: "OK",
                       }).then(()=>{
                         this.toggle();
-                        
+                        window.location.reload();
                       })
                 }else if(res==="ex"){
                     swal({
                         title: "Error!",
-                        text: "You registerd this plan before, please check again! thiện nè",
+                        text: "You registerd this plan before, please check again!",
                         icon: "error",
                         button: "OK",
                       }).then(()=>{
@@ -135,11 +135,13 @@ class Plan extends Component {
         } 
     }
 
-    componentDidMount(){
-        console.log(this.validateRegis(this.props.count, this.props.plan.planId));
-        
+    handleCheck = (event) => {
+        event.preventDefault();
+        if(sessionStorage.getItem("role")==='ADMIN')
+            this.props.history.push("/ticketpage");
+        else if(sessionStorage.getItem("role")==='STUDENT')
+            this.props.history.push("/notfound");
     }
-
 
 
     render() { 
@@ -147,8 +149,8 @@ class Plan extends Component {
         let button;
         if(this.props.plan.planState==='available'){
             button=<Button color="success" onClick={(e)=>this.handleRegister(e)}>Register</Button>
-        }else if(this.props.plan.planState==='expired'){
-            button=<Button color="danger">Delete</Button>
+        }else if(this.props.plan.planState==='closed'){
+            button=<Button color="danger" onClick={(e)=>this.handleCheck(e)}>Check</Button>
         }else{
             button=<div>
                 <Button color="success" onClick={(e)=>this.handleApprove(e)}>Approve</Button>{" "}
