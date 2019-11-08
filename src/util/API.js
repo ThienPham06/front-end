@@ -136,8 +136,8 @@ export async function approveRequest(planId){
     })
 }
 
-export async function rejectRequest(planId){
-    return axios.put(API_BASE_URL + '/plans/reject/' + planId, {
+export async function rejectRequest(planId, reason){
+    return axios.put(API_BASE_URL + '/plans/reject/' + planId, reason, {
         planId:planId
     }).then(res=>{
         return res.data.success;
@@ -198,8 +198,8 @@ export async function approveTicket(ticketid, adminid){
     })
 }
 
-export async function rejectTicket(ticketid, adminid){
-    return await axios.put(API_BASE_URL + '/tickets/reject/' + ticketid + '/' + adminid, {
+export async function rejectTicket(ticketid, adminid, reason){
+    return await axios.put(API_BASE_URL + '/tickets/reject/' + ticketid + '/' + adminid, reason, {
         ticketid:ticketid,
         adminid:adminid
     }).then(res=>{

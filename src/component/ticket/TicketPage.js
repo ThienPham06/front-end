@@ -76,7 +76,6 @@ class TicketPage extends Component {
                     this.loadWaitingTicketsByPlan(plan.planId);
                     this.setState({plan: plan});
                     // document.getElementById("wwq").setAttribute("class", "list-group-itewm");
-
                     }}>
                     { plan.planId } 
                    

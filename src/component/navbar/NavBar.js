@@ -53,7 +53,7 @@ class NavBar extends Component {
                         </Badge>
                     </NavItem>
                     <NavItem className="hs">
-                        <FontAwesomeIcon icon={faHistory} /> <a href="">History</a>
+                        <FontAwesomeIcon icon={faHistory} /> <a href="/history">History</a>
                     </NavItem>
                 </Nav>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />

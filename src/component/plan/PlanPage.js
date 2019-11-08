@@ -6,7 +6,7 @@ import { getPlanByState, getPlandetailByPlanId, countWaitingTicket } from '../..
 import './PlanPage.css'
 import Plan from './Plan';
 import LoadingSpinner from '../spinner/LoadingSpinner';
-import ActionButton from '../action_button/ActionButton'
+import ActionButton from '../action_button/ActionButton';
 
 class PlanPage extends Component {
     constructor(props) {
@@ -90,7 +90,7 @@ class PlanPage extends Component {
         let listgrpav;
         let listgrpcl;
         if(this.state.role==="ADMIN")
-            button = <Button size="lg" color="success" href="/planpage/create">Create request</Button>;
+            button = <div className="buttonGroup"><Button size="lg" color="success" href="/planpage/create">Create request</Button></div>;
         else
             button = <Button size="lg" color="success" href="/notfound">Create request</Button>;
         
@@ -137,7 +137,8 @@ class PlanPage extends Component {
                 <ListGroupItem key={index} onClick={(e)=>{
                     this.handleToggle(e);
                     this.setState({plan: plan});
-                    this.loadPlandetail(plan.planId)}}>
+                    this.loadPlandetail(plan.planId)}
+                    }>
                     { plan.planId } 
                 </ListGroupItem>);
             })}

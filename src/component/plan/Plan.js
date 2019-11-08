@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table, Progress } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table, Progress, Input, InputGroup } from 'reactstrap';
 import {withRouter} from 'react-router-dom';
 import {approveRequest, rejectRequest, createTicket} from '../../util/API';
 import swal from '@sweetalert/with-react';
@@ -13,12 +13,18 @@ class Plan extends Component {
             ticketRequest: {
                 planId:'', studentId:''
             },
-            ticketCount:''
+            ticketCount:'',
+            nestedModal:false,
+            reason:''
         };
     }
 
     toggle = () => {
-        this.props.modalCallbackFromList(!this.state.modal);
+        this.props.modalCallbackFromList(!this.state.modal)
+    }
+    
+    toggleNested = () => {
+        this.setState({nestedModal:!this.state.nestedModal})
     }
 
     validateRegis = (count, quantity) => {
@@ -57,8 +63,7 @@ class Plan extends Component {
 
     handleReject = (event) => {
         event.preventDefault();
-        if(sessionStorage.getItem("role")==='ADMIN'){
-            rejectRequest(this.props.plan.planId).then(res=>{
+            rejectRequest(this.props.plan.planId, this.inputReason.value).then(res=>{
                 if(res===true){
                     swal({
                         title: "Successfully!",
@@ -78,9 +83,17 @@ class Plan extends Component {
                       });
                 }
             })
-        }else{
+      
+    }
+
+    handleNestedReason = (event) => {
+        event.preventDefault();
+        if(sessionStorage.getItem("role")==='ADMIN'){
+            this.toggleNested();
+        }
+        else{
             this.props.history.push("/notfound");
-        }        
+        }   
     }
 
     handleRegister = (event) => {
@@ -154,11 +167,11 @@ class Plan extends Component {
         }else{
             button=<div>
                 <Button color="success" onClick={(e)=>this.handleApprove(e)}>Approve</Button>{" "}
-                <Button color="danger" onClick={(e)=>this.handleReject(e)}>Reject</Button>
+                <Button color="danger" onClick={this.toggleNested}>Reject</Button>
             </div>
         }
         return ( 
-            <Modal isOpen={this.props.modalFromList} toggle={this.toggle} >
+            <Modal isOpen={this.props.modalFromList} toggle={this.toggle} fade={true} scrollable={true}>
                 <ModalHeader>Plan detail</ModalHeader>
                 <ModalBody>
                     <Table>
@@ -205,6 +218,19 @@ class Plan extends Component {
                     {button}{" "}
                     <Button onClick={this.toggle}>Close</Button>
                 </ModalFooter>
+            <Modal fade={true} isOpen={this.state.nestedModal} toggle={this.toggleNested}>
+                <ModalHeader>Input reject reason:</ModalHeader>
+                <ModalBody>
+                    <Input required type="text" className="reason" 
+                            id="reason" 
+                            placeholder="Reason" 
+                            innerRef={x=>(this.inputReason=x)} />
+                </ModalBody>
+                <ModalFooter>
+                    <Button color ="success" onClick={(e)=>{this.handleReject(e)}}>Continue</Button>
+                    <Button onClick={this.toggleNested}>Cancel</Button>
+                </ModalFooter>
+            </Modal>
             </Modal>
         );
     }

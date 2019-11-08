@@ -36,16 +36,11 @@ class Profile extends Component {
         })
     }
 
-
     componentDidMount(){
         this.loadAdmin(sessionStorage.getItem("id"));
         this.loadStudent(sessionStorage.getItem("id")); 
         this.loadStudentDetail(sessionStorage.getItem("id"));
-        console.log(this.state.studentDetail.studentdetailPortrait);
-        
     }
-
-
 
     render() {
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, ModalBody, ModalHeader, ModalFooter, Button, Table} from 'reactstrap';
+import {Modal, ModalBody, ModalHeader, ModalFooter, Button, Table, Input} from 'reactstrap';
 import {approveTicket, rejectTicket, getWaitingTickets} from '../../util/API';
 import swal from '@sweetalert/with-react';
 
@@ -9,13 +9,17 @@ class Ticket extends Component {
         this.state = { 
             modal: this.props.modalFromList,
             flag: this.props.flagFromList,
-            ntickets:[]
+            ntickets:[],
+            nestedModal:false
         }
     }
 
     toggle = () => {
-        this.props.modalCallbackFromList(!this.state.modal);
-        
+        this.props.modalCallbackFromList(!this.state.modal);    
+    }
+
+    toggleNested = () => {
+        this.setState({nestedModal:!this.state.nestedModal})
     }
 
     loadWaitingTicketsByPlan = (planid) => {
@@ -49,7 +53,7 @@ class Ticket extends Component {
 
     handleReject = (e) => {
         e.preventDefault();
-        rejectTicket(this.props.ticket.ticketId, sessionStorage.getItem("id")).then(res=>{
+        rejectTicket(this.props.ticket.ticketId, sessionStorage.getItem("id"), this.inputReason.value).then(res=>{
             if(res===true){
                 swal({
                     title: "Successfully!",
@@ -92,9 +96,22 @@ class Ticket extends Component {
             </ModalBody>
             <ModalFooter>
                 <Button color="success" onClick={(e)=>{this.handleApprove(e)}}>Approve</Button>
-                <Button color="danger" onClick={(e)=>{this.handleReject(e)}}>Reject</Button>
+                <Button color="danger" onClick={this.toggleNested}>Reject</Button>
                 <Button onClick={this.toggle}>Close</Button>
             </ModalFooter>
+            <Modal fade={true} isOpen={this.state.nestedModal} toggle={this.toggleNested}>
+                <ModalHeader>Input reject reason:</ModalHeader>
+                <ModalBody>
+                    <Input required type="text" className="reason" 
+                            id="reason" 
+                            placeholder="Reason" 
+                            innerRef={x=>(this.inputReason=x)} />
+                </ModalBody>
+                <ModalFooter>
+                    <Button color ="success" onClick={(e)=>{this.handleReject(e)}}>Continue</Button>
+                    <Button onClick={this.toggleNested}>Cancel</Button>
+                </ModalFooter>
+            </Modal>
         </Modal>
         );
     }

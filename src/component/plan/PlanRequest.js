@@ -11,11 +11,12 @@ class PlanRequest extends Component {
         super(props);
         this.state = { 
             planRequest:{
-                planId:'', date:'', venue:'', contact:'', creatorId:''
+                planId:'', date:'', venue:'', contact:'', creatorId:'', quantity:''
             },
             errors:{
                 planid:'',
-                date:''
+                date:'',
+                quantityV:''
             }
         }
     }
@@ -42,6 +43,8 @@ class PlanRequest extends Component {
             case 'planDate':
                 errors.date = Date.parse(input) <= Date.parse(valid) ? 'Date have to be 8 days more from today!' : ''; 
                 break;
+            case 'quantity':
+                errors.quantity = value <=0 || value > 200 ? "Plan request attendants has to > 0 and < 200" : ';'
         }
         this.setState({errors, [name]: value});
 
@@ -55,6 +58,7 @@ class PlanRequest extends Component {
         planRequest.date=this.dateInput.value;
         planRequest.contact=this.contactInput.value;
         planRequest.venue=this.venueInput.value;
+        planRequest.quantity=this.quantityInput.value;
         planRequest.creatorId=sessionStorage.getItem("id");
 
         createRequest(planRequest).then(res=>{
@@ -136,6 +140,16 @@ class PlanRequest extends Component {
                             id="planContact" 
                             placeholder="For contact" 
                             innerRef={x=>(this.contactInput=x)}
+                            />
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Label for="quantity" sm={4}>Quantity: </Label>
+                    <Col sm={10}>
+                        <Input required type='number' name="quantity" 
+                            id="quantity" 
+                            placeholder="Quantity" 
+                            innerRef={x=>(this.quantityInput=x)}
                             />
                     </Col>
                 </FormGroup>
