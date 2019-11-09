@@ -32,9 +32,9 @@ class NavBar extends Component {
             ticketNav = <a href="/notfound">Check</a>
 
         return ( 
-            <Navbar color="faded" light className="navbar">
+            <Navbar color="light" light >
                 <NavbarBrand className="mr-auto"  href='/home'>
-                    <img src='/images/logo.png' />
+                    <img src='/images/logo.png' /> HỆ THỐNG QUẢN LÍ HIẾN MÁU 
                 </NavbarBrand>
                 <Nav>
                     <NavItem className="db">

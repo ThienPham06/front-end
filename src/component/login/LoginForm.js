@@ -1,10 +1,11 @@
-import { Form, FormGroup, Label, Button, FormFeedback, Input } from 'reactstrap';
+import { Form, FormGroup, Card, CardBody, CardImg, Button, FormFeedback, Input } from 'reactstrap';
 import React, { Component } from 'react';
 import './LoginForm.css';
 import '../../util/API.js'
 import { login } from '../../util/API.js';
 import {withRouter} from 'react-router-dom';
 import {ACCESS_TOKEN } from '../../constant/index.js';
+
 
 
 class LoginForm extends Component {
@@ -38,32 +39,39 @@ class LoginForm extends Component {
         let errInput;
         if(this.state.error===true){
             errInput=<div>
-                <Label for="exampleUsername">User ID:  </Label>
+                {/* <Label for="exampleUsername">User ID:  </Label> */}
                 <Input  type="text" name="userid" id="userid" invalid
-                        placeholder="User id" 
+                        placeholder="Mã số người dùng" 
                         innerRef={x=>(this.idInput=x)} />
                 <FormFeedback>User id or password is incorrect!</FormFeedback>
             </div>
         }else{
             errInput=<div>
-                <Label for="exampleUsername">User ID:  </Label>
+                {/* <Label for="exampleUsername">User ID:  </Label> */}
                 <Input  type="text" name="userid" id="userid"
-                    placeholder="User id" 
+                    placeholder="Mã số người dùng" 
                     innerRef={x=>(this.idInput=x)} />
             </div> 
         }
         return ( 
-        <Form onSubmit={(e)=>this.handleSubmit(e)} className="loginform" history={this.props.history} >
-            <FormGroup>
-                {errInput}
-            </FormGroup>
-            <FormGroup>
-                <Label for="examplePassword">Password:  </Label>
-                <Input type="password" name="password" id="password" 
-                    placeholder="Password" innerRef={x=>(this.passInput=x)} />
-            </FormGroup>
-            <Button type = "submit" htmltype="submit" size="large" className="login-form-button">Login</Button>
-        </Form>
+        <div className="page">
+        <Card className="card">
+            <CardImg top width="90%" src="/images/user.png" alt="Card image cap" />
+            <CardBody>
+                <Form onSubmit={(e)=>this.handleSubmit(e)} className="loginform" history={this.props.history} >
+                <FormGroup>
+                    {errInput}
+                </FormGroup>
+                <FormGroup className="fgr">
+                    {/* <Label for="examplePassword">Password:  </Label> */}
+                    <Input type="password" name="password" id="password" 
+                        placeholder="Mật khẩu" innerRef={x=>(this.passInput=x)} />
+                </FormGroup>
+                <Button color="info" type = "submit" htmltype="submit" size="large" className="login-form-button">Đăng nhập</Button>
+                </Form>
+            </CardBody>
+        </Card>
+        </div>
         );
     }
 }
