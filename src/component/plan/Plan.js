@@ -36,7 +36,7 @@ class Plan extends Component {
     handleApprove = (event) => {
         event.preventDefault();
         if(sessionStorage.getItem("role")==='ADMIN'){
-            approveRequest(this.props.plan.planId).then(res=>{
+            approveRequest(this.props.plan.planId, sessionStorage.getItem("id")).then(res=>{
                 if(res===true){
                     swal({
                         title: "Successfully!",
@@ -63,7 +63,7 @@ class Plan extends Component {
 
     handleReject = (event) => {
         event.preventDefault();
-            rejectRequest(this.props.plan.planId, this.inputReason.value).then(res=>{
+            rejectRequest(this.props.plan.planId, this.inputReason.value, sessionStorage.getItem("id")).then(res=>{
                 if(res===true){
                     swal({
                         title: "Successfully!",

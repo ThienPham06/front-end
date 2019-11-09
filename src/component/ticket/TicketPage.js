@@ -6,6 +6,7 @@ import NavBar from '../navbar/NavBar';
 import ActionButton from '../action_button/ActionButton';
 import './TicketPage.css';
 import Ticket from './Ticket';
+import _ from 'lodash';
 
 class TicketPage extends Component {
     constructor(props) {
@@ -72,9 +73,13 @@ class TicketPage extends Component {
             <ListGroup>
                 {this.state.plans.map((plan, index)=>{
                 return(
-                <ListGroupItem id="wwq" key={index} onClick={(e)=>{
+                <ListGroupItem id="plan-item" key={index} onClick={(e)=>{
                     this.loadWaitingTicketsByPlan(plan.planId);
                     this.setState({plan: plan});
+                    let idx = _.findIndex(this.state.plans, function(p){
+                        return p.planId === plan.planId;
+                    });
+                    
                     // document.getElementById("wwq").setAttribute("class", "list-group-itewm");
                     }}>
                     { plan.planId } 

@@ -1,5 +1,6 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
 import axios from 'axios';
+import { async } from 'q';
 
 axios.defaults.headers.common['Authorization'] = 'Bearer'+ ACCESS_TOKEN;
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -126,8 +127,8 @@ export function createRequest(planRequest){
     })
 } 
 
-export async function approveRequest(planId){
-    return axios.put(API_BASE_URL + '/plans/approve/' + planId, {
+export async function approveRequest(planId, adminid){
+    return axios.put(API_BASE_URL + '/plans/approve/' + planId, adminid,{
         planId:planId
     }).then(res=>{
         return res.data.success;
@@ -136,8 +137,8 @@ export async function approveRequest(planId){
     })
 }
 
-export async function rejectRequest(planId, reason){
-    return axios.put(API_BASE_URL + '/plans/reject/' + planId, reason, {
+export async function rejectRequest(planId, reason, adminid){
+    return axios.put(API_BASE_URL + '/plans/reject/' + planId, reason, adminid,{
         planId:planId
     }).then(res=>{
         return res.data.success;
@@ -188,7 +189,7 @@ export async function getStudentByTicket(ticketid){
 }
 
 export async function approveTicket(ticketid, adminid){
-    return await axios.put(API_BASE_URL + '/tickets/approve/' + ticketid + '/' + adminid, {
+    return await axios.put(API_BASE_URL + '/tickets/approve/' + ticketid + '/' + adminid,{
         ticketid:ticketid,
         adminid:adminid
     }).then(res=>{
@@ -199,11 +200,50 @@ export async function approveTicket(ticketid, adminid){
 }
 
 export async function rejectTicket(ticketid, adminid, reason){
-    return await axios.put(API_BASE_URL + '/tickets/reject/' + ticketid + '/' + adminid, reason, {
+    return await axios.put(API_BASE_URL + '/tickets/reject/' + ticketid + '/' + adminid, reason,{
         ticketid:ticketid,
         adminid:adminid
     }).then(res=>{
         return res.data.success;
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function getClosedPlansCreateByAdmin(adminid){
+    return await axios.get(API_BASE_URL + '/createdAndClosed/' + adminid, {
+        adminid:adminid
+    }).then(res=>{
+        return res.data;
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+// export async function getClosedPlansCreateByAdmin(adminid){
+//     return await axios.get(API_BASE_URL + '/createdAndClosed/' + adminid, {
+//         adminid:aminid
+//     }).then(res=>{
+//         return res.data;
+//     }).catch(err=>{
+//         return err.status;
+//     })
+// }
+
+export async function getWaitingPlansCreateByAdmin(adminid){
+    return await axios.get(API_BASE_URL + '/createdAndWaiting/' + adminid, {
+        adminid:adminid
+    }).then(res=>{
+        return res.data; 
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function getApprovedPlanByChecker(adminid){
+    return await axios.get(API_BASE_URL + '/approvedBy/' + adminid, {
+    }).then(res=>{
+        return res.data; 
     }).catch(err=>{
         return err.status;
     })
