@@ -27,9 +27,9 @@ class NavBar extends Component {
     render() { 
         let ticketNav;
         if(sessionStorage.getItem('role')==="ADMIN")
-            ticketNav = "/ticketpage"
+            ticketNav = <a href="/ticketpage">Check</a>
         else if(sessionStorage.getItem('role')==="STUDENT")
-            ticketNav = "/notfound"
+            ticketNav = <a href="/notfound">Check</a>
 
         return ( 
             <Navbar color="faded" light className="navbar">
@@ -47,7 +47,7 @@ class NavBar extends Component {
                         </Badge>
                     </NavItem>
                     <NavItem className="tk">
-                        <FontAwesomeIcon icon={faFileMedical} /> <a href={ticketNav}>Check</a>
+                        <FontAwesomeIcon icon={faFileMedical} /> {ticketNav}
                         <Badge className="notify" color="danger" pill>
                             {this.props.closedPlanCounting}
                         </Badge>

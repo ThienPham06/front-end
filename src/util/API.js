@@ -211,7 +211,7 @@ export async function rejectTicket(ticketid, adminid, reason){
 }
 
 export async function getClosedPlansCreateByAdmin(adminid){
-    return await axios.get(API_BASE_URL + '/createdAndClosed/' + adminid, {
+    return await axios.get(API_BASE_URL + '/plans/createdAndClosed/' + adminid, {
         adminid:adminid
     }).then(res=>{
         return res.data;
@@ -231,7 +231,7 @@ export async function getClosedPlansCreateByAdmin(adminid){
 // }
 
 export async function getWaitingPlansCreateByAdmin(adminid){
-    return await axios.get(API_BASE_URL + '/createdAndWaiting/' + adminid, {
+    return await axios.get(API_BASE_URL + '/plans/createdAndWaiting/' + adminid, {
         adminid:adminid
     }).then(res=>{
         return res.data; 
@@ -241,7 +241,7 @@ export async function getWaitingPlansCreateByAdmin(adminid){
 }
 
 export async function getApprovedPlanByChecker(adminid){
-    return await axios.get(API_BASE_URL + '/approvedBy/' + adminid, {
+    return await axios.get(API_BASE_URL + '/plans/approvedBy/' + adminid, {
     }).then(res=>{
         return res.data; 
     }).catch(err=>{

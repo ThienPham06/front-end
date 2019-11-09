@@ -6,3 +6,9 @@
 .counter {
     text-align: right;
 }
+
+.list-group-item1{
+    background-color: gray !important;
+    border-color: #aed248;
+
+}

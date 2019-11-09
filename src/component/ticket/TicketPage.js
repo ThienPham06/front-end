@@ -73,15 +73,31 @@ class TicketPage extends Component {
             <ListGroup>
                 {this.state.plans.map((plan, index)=>{
                 return(
-                <ListGroupItem id="plan-item" key={index} onClick={(e)=>{
+                <ListGroupItem id="plan-item" className={plan.className} key={index} 
+                // onMouseMove={}
+                onClick={(e)=>{
                     this.loadWaitingTicketsByPlan(plan.planId);
                     this.setState({plan: plan});
                     let idx = _.findIndex(this.state.plans, function(p){
                         return p.planId === plan.planId;
                     });
+                    this.setState(state => {
+                     const list = state.plans.map((p, j) => {
+                        if (j === idx) {
+                            return p.className = "list-group-item1";
+                        } else {
+                             return p.className = ' ';
+                         }
+                    });
+                 return {
+                    list,
+                    };
+                });
                     
                     // document.getElementById("wwq").setAttribute("class", "list-group-itewm");
-                    }}>
+                    }
+                
+                }>
                     { plan.planId } 
                    
                 </ListGroupItem>);

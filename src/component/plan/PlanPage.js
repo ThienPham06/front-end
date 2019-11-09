@@ -7,6 +7,7 @@ import './PlanPage.css'
 import Plan from './Plan';
 import LoadingSpinner from '../spinner/LoadingSpinner';
 import ActionButton from '../action_button/ActionButton';
+import _ from 'lodash';
 
 class PlanPage extends Component {
     constructor(props) {
@@ -103,7 +104,24 @@ class PlanPage extends Component {
                 <ListGroupItem key={index} onClick={(e)=>{
                     this.handleToggle(e);
                     this.setState({plan: plan});                             
-                    this.loadPlandetail(plan.planId)}} >
+                    this.loadPlandetail(plan.planId);
+                //     let idx = _.findIndex(this.state.waitingPlans, function(p){
+                //         return p.planId === plan.planId;
+                //     });
+                //     this.setState(state => {
+                //      const list = state.waitingPlans.map((p, j) => {
+                //         if (j === idx) {
+                //             return p.className = "list-group-item1";
+                //         } else {
+                //              return p.className = ' ';
+                //          }
+                //     });
+                //  return {
+                //     list,
+                //     };
+                // });
+
+                    }} >
                     { plan.planId }
                 </ListGroupItem>
                 );
