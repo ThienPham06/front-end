@@ -8,10 +8,11 @@
 }
 
 .footer {
-    position: fixed;
+    position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
+    top: 89%;
     background-image: url('../footer/footer.jpg');
     opacity: 0.7;
     /* padding-top: 50px; */

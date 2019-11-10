@@ -27,9 +27,9 @@ class NavBar extends Component {
     render() { 
         let ticketNav;
         if(sessionStorage.getItem('role')==="ADMIN")
-            ticketNav = <a href="/ticketpage">Check</a>
+            ticketNav = <a href="/ticketpage">Phiếu đăng kí</a>
         else if(sessionStorage.getItem('role')==="STUDENT")
-            ticketNav = <a href="/notfound">Check</a>
+            ticketNav = <a href="/notfound">Phiếu đăng kí</a>
 
         return ( 
             <Navbar color="light" light >
@@ -38,10 +38,10 @@ class NavBar extends Component {
                 </NavbarBrand>
                 <Nav>
                     <NavItem className="db">
-                        <FontAwesomeIcon icon={faDatabase} /> <a href="">Dashboard</a>
+                        <FontAwesomeIcon icon={faDatabase} /> <a href="">Thống kê</a>
                     </NavItem>
                     <NavItem className="pl">
-                        <FontAwesomeIcon icon={faFileAlt} /> <a href="/planpage">Plan</a>
+                        <FontAwesomeIcon icon={faFileAlt} /> <a href="/planpage">Lịch hiến máu </a>
                         <Badge className="notify" color="danger" pill>
                             {this.props.planCounting}
                         </Badge>
@@ -53,7 +53,7 @@ class NavBar extends Component {
                         </Badge>
                     </NavItem>
                     <NavItem className="hs">
-                        <FontAwesomeIcon icon={faHistory} /> <a href="/history">History</a>
+                        <FontAwesomeIcon icon={faHistory} /> <a href="/history">Lịch sử</a>
                     </NavItem>
                 </Nav>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
@@ -61,15 +61,15 @@ class NavBar extends Component {
                     <Nav navbar>
                         <NavItem>
                             <i className="fa fa-user-circle"></i>
-                            <NavLink href='/profile'>Profile</NavLink>
+                            <NavLink href='/profile'>Thông tin cá nhân</NavLink>
                         </NavItem>
                         <NavItem>
                             <i className="fa fa-cog"></i>
-                            <NavLink href=''>Setting</NavLink>
+                            <NavLink href=''>Cài đặt</NavLink>
                         </NavItem>
                         <NavItem>
                             <i className="fa fa-sign-out-alt"></i>
-                            <NavLink href='' onClick={this.onLogout}>Logout</NavLink>
+                            <NavLink href='' onClick={this.onLogout}>Đăng xuất</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

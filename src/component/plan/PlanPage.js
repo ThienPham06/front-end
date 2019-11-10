@@ -8,6 +8,7 @@ import Plan from './Plan';
 import LoadingSpinner from '../spinner/LoadingSpinner';
 import ActionButton from '../action_button/ActionButton';
 import _ from 'lodash';
+import { Footer } from "../footer/Footer"
 
 class PlanPage extends Component {
     constructor(props) {
@@ -91,12 +92,12 @@ class PlanPage extends Component {
         let listgrpav;
         let listgrpcl;
         if(this.state.role==="ADMIN")
-            button = <div className="buttonGroup"><Button size="lg" color="success" href="/planpage/create">Create request</Button></div>;
+            button = <div className="buttonGroup"><Button size="lg" color="success" href="/planpage/create">Yêu cầu thêm lịch hiến máu</Button></div>;
         else
-            button = <Button size="lg" color="success" href="/notfound">Create request</Button>;
+            button = <div className="buttonGroup"><Button size="lg" color="success" href="/notfound">Yêu cầu thêm lịch hiến máu</Button></div>;
         
         if(this.state.waitingPlans.length===0)
-            listgrpwt = <ListGroup><ListGroupItem>Do not have any waiting plan yet...</ListGroupItem></ListGroup>
+            listgrpwt = <ListGroup><ListGroupItem>Hiện tại chưa có lịch đang chờ xác nhận...</ListGroupItem></ListGroup>
         else
             listgrpwt =                         <ListGroup>
             {this.state.waitingPlans.map((plan, index)=>{
@@ -129,7 +130,7 @@ class PlanPage extends Component {
         </ListGroup>;
 
         if(this.state.availablePlans.length===0)
-            listgrpav = <ListGroup><ListGroupItem>Do not have any available plan yet...</ListGroupItem></ListGroup>
+            listgrpav = <ListGroup><ListGroupItem>Chưa có lịch có thể đăng ký...</ListGroupItem></ListGroup>
         else
             listgrpav =                         <ListGroup>
             {this.state.availablePlans.map((plan, index)=>{
@@ -147,7 +148,7 @@ class PlanPage extends Component {
         </ListGroup>;
 
         if(this.state.closedPlans.length===0)
-            listgrpcl = <ListGroup><ListGroupItem>Do not have any closed plan yet...</ListGroupItem></ListGroup>
+            listgrpcl = <ListGroup><ListGroupItem>Không có lịch đã đóng...</ListGroupItem></ListGroup>
         else
             listgrpcl =                         <ListGroup>
             {this.state.closedPlans.map((plan, index)=>{
@@ -169,7 +170,7 @@ class PlanPage extends Component {
             )
         else {
         return (
-        <div>
+        <div className="planpage">
             <NavBar planCounting = {this.state.planCount}
                     closedPlanCounting = {this.state.closedPlanCount}
             /><br></br>
@@ -177,13 +178,13 @@ class PlanPage extends Component {
             <div>
             <Container>
                 <Row>
-                    <Col xs="6" sm="4"> Waiting plans
+                    <Col xs="6" sm="4"> Lịch hiến máu chờ xác nhận:
                         {listgrpwt}
                     </Col>
-                    <Col xs="6" sm="4"> Available plans
+                    <Col xs="6" sm="4"> Lịch hiến máu có thể đăng ký:
                         {listgrpav}
                     </Col>
-                    <Col sm="4"> Closed plans
+                    <Col sm="4"> Lịch hiến máu đã đóng:
                         {listgrpcl}
                     </Col>
                 </Row>
@@ -198,6 +199,7 @@ class PlanPage extends Component {
                     modalCallbackFromList={this.modalCallback.bind(this)}
                     count={this.state.ticketCount}
             />
+            <Footer />
         </div>
         );
         }

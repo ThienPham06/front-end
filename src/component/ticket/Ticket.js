@@ -33,8 +33,8 @@ class Ticket extends Component {
         approveTicket(this.props.ticket.ticketId, sessionStorage.getItem("id")).then(res=>{
             if(res===true){
                 swal({
-                    title: "Successfully!",
-                    text: "Ticket has been approved!",
+                    title: "Thành công!",
+                    text: "Phiếu đăng kí tham gia đã được xác nhận!",
                     icon: "success",
                     button:"OK"
                   }).then(()=>{
@@ -42,8 +42,8 @@ class Ticket extends Component {
                   });
             }else{
                 swal({
-                    title: "Oops...!",
-                    text: "Something went wrong! Plz try again",
+                    title: "Lỗi!",
+                    text: "Đã có lỗi xảy ra! Vui lòng thử lại!",
                     icon: "error",
                     button:"OK"
                   })
@@ -56,8 +56,8 @@ class Ticket extends Component {
         rejectTicket(this.props.ticket.ticketId, sessionStorage.getItem("id"), this.inputReason.value).then(res=>{
             if(res===true){
                 swal({
-                    title: "Successfully!",
-                    text: "Ticket has been rejected!",
+                    title: "Thành công!",
+                    text: "Phiếu đăng kí tham gia đã bị hủy bỏ!",
                     icon: "success",
                     button:"OK"
                   }).then(()=>{
@@ -65,8 +65,8 @@ class Ticket extends Component {
                   });
             }else{
                 swal({
-                    title: "Oops...!",
-                    text: "Something went wrong! Plz try again",
+                    title: "Lỗi!",
+                    text: "Đã có lỗi xảy ra! Vui lòng thử lại!",
                     icon: "error",
                     button:"OK"
                   })
@@ -77,39 +77,39 @@ class Ticket extends Component {
     render() { 
         return ( 
         <Modal isOpen={this.props.modalFromList} toggle={this.toggle}>
-            <ModalHeader>Ticket detail</ModalHeader>
+            <ModalHeader>Thông tin chi tiết phiếu đăng kí</ModalHeader>
             <ModalBody>
                 <Table>
                     <tr>
-                        <th>Ticket ID: </th>
+                        <th>Mã số phiếu: </th>
                         <th>{this.props.ticket.ticketId}</th>
                     </tr>
                     <tr>
-                        <th>Student ID: </th>
+                        <th>Mã số sinh viên đăng kí: </th>
                         <th>{this.props.student.studentId}</th>
                     </tr>
                     <tr>
-                        <th>Created date: </th>
+                        <th>Ngày đăng kí: </th>
                         <th>{this.props.ticket.ticketCreatedTime}</th>
                     </tr>
                 </Table>
             </ModalBody>
             <ModalFooter>
-                <Button color="success" onClick={(e)=>{this.handleApprove(e)}}>Approve</Button>
-                <Button color="danger" onClick={this.toggleNested}>Reject</Button>
-                <Button onClick={this.toggle}>Close</Button>
+                <Button color="success" onClick={(e)=>{this.handleApprove(e)}}>Xác nhận</Button>
+                <Button color="danger" onClick={this.toggleNested}>Hủy bỏ</Button>
+                <Button onClick={this.toggle}>Đóng</Button>
             </ModalFooter>
             <Modal fade={true} isOpen={this.state.nestedModal} toggle={this.toggleNested}>
-                <ModalHeader>Input reject reason:</ModalHeader>
+                <ModalHeader>Nhập lí do hủy:</ModalHeader>
                 <ModalBody>
                     <Input required type="text" className="reason" 
                             id="reason" 
-                            placeholder="Reason" 
+                            placeholder="Lí do" 
                             innerRef={x=>(this.inputReason=x)} />
                 </ModalBody>
                 <ModalFooter>
-                    <Button color ="success" onClick={(e)=>{this.handleReject(e)}}>Continue</Button>
-                    <Button onClick={this.toggleNested}>Cancel</Button>
+                    <Button color ="success" onClick={(e)=>{this.handleReject(e)}}>Tiếp tục</Button>
+                    <Button onClick={this.toggleNested}>Trở lại</Button>
                 </ModalFooter>
             </Modal>
         </Modal>

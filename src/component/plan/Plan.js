@@ -39,8 +39,8 @@ class Plan extends Component {
             approveRequest(this.props.plan.planId, sessionStorage.getItem("id")).then(res=>{
                 if(res===true){
                     swal({
-                        title: "Successfully!",
-                        text: "Plan request has been approved! Now it's available!",
+                        title: "Xác nhận thành công!",
+                        text: "Yêu cầu thêm lịch hiến máu đã được xác nhận!",
                         icon: "success",
                         button: "OK",
                       }).then(()=>{
@@ -49,8 +49,8 @@ class Plan extends Component {
                       })
                 }else{
                     swal({
-                        title: "Error!",
-                        text: "Oops...! Something went wrong! Plz try again!",
+                        title: "Xác nhận KHÔNG thành công!!",
+                        text: "Đã xảy ra lỗi, vui lòng thử lại!",
                         icon: "error",
                         button: "OK",
                       });
@@ -66,8 +66,8 @@ class Plan extends Component {
             rejectRequest(this.props.plan.planId, this.inputReason.value, sessionStorage.getItem("id")).then(res=>{
                 if(res===true){
                     swal({
-                        title: "Successfully!",
-                        text: "Plan request has been rejected! ",
+                        title: "Đã hủy!",
+                        text: "Yêu cầu thêm lịch hiến máu đã bị hủy bỏ!",
                         icon: "success",
                         button: "OK",
                       }).then(()=>{
@@ -76,8 +76,8 @@ class Plan extends Component {
                       })
                 }else{
                     swal({
-                        title: "Error!",
-                        text: "Oops...! Something went wrong! Plz try again!",
+                        title: "Hủy thất bại!",
+                        text: "Đã xảy ra lỗi, vui lòng thử lại!",
                         icon: "error",
                         button: "OK",
                       });
@@ -107,8 +107,8 @@ class Plan extends Component {
         }else{
             if(this.validateRegis(this.props.count, this.props.plan.quantity)){
                 swal({
-                    title: "Warning!",
-                    text: "This plan is full of waiting tickets and can not be registed! Refresh to looking for a chance!",
+                    title: "Cảnh báo!",
+                    text: "Đã đủ số lượng sinh viên đăng ký! Tải lại trang nếu cần!",
                     icon: "warning",
                     button: "OK",
                   })
@@ -116,8 +116,8 @@ class Plan extends Component {
             createTicket(ticketRequest).then(res=>{ 
                 if(res==="sc"){
                     swal({
-                        title: "Successfully!",
-                        text: "Registered plan successfully! Now waiting for the day! :)",
+                        title: "Thành công!",
+                        text: "Bạn đã đăng ký tham gia hiến máu thành công! :)",
                         icon: "success",
                         button: "OK",
                       }).then(()=>{
@@ -126,8 +126,8 @@ class Plan extends Component {
                       })
                 }else if(res==="ex"){
                     swal({
-                        title: "Error!",
-                        text: "You registerd this plan before, please check again!",
+                        title: "Lỗi!",
+                        text: "Bạn đã đăng ký tham gia lịch hiến máu này! Vui lòng kiểm tra lại!",
                         icon: "error",
                         button: "OK",
                       }).then(()=>{
@@ -135,8 +135,8 @@ class Plan extends Component {
                       })
                 }else {
                     swal({
-                        title: "Error!",
-                        text: "Registered unsuccessfully! You had 2 tickets are waiting!",
+                        title: "Lỗi!",
+                        text: "Bạn không thể đăng ký tham gia hiến máu 2 lần cùng lúc!",
                         icon: "error",
                         button: "OK",
                       }).then(()=>{
@@ -161,34 +161,34 @@ class Plan extends Component {
             
         let button;
         if(this.props.plan.planState==='available'){
-            button=<Button color="success" onClick={(e)=>this.handleRegister(e)}>Register</Button>
+            button=<Button color="success" onClick={(e)=>this.handleRegister(e)}>Đăng ký</Button>
         }else if(this.props.plan.planState==='closed'){
-            button=<Button color="danger" onClick={(e)=>this.handleCheck(e)}>Check</Button>
+            button=<Button color="danger" onClick={(e)=>this.handleCheck(e)}>Đến trang xác nhận đơn</Button>
         }else{
             button=<div>
-                <Button color="success" onClick={(e)=>this.handleApprove(e)}>Approve</Button>{" "}
-                <Button color="danger" onClick={this.toggleNested}>Reject</Button>
+                <Button color="success" onClick={(e)=>this.handleApprove(e)}>Xác nhận</Button>{" "}
+                <Button color="danger" onClick={this.toggleNested}>Hủy bỏ</Button>
             </div>
         }
         return ( 
             <Modal isOpen={this.props.modalFromList} toggle={this.toggle} fade={true} scrollable={true}>
-                <ModalHeader>Plan detail</ModalHeader>
+                <ModalHeader>Thông tin chi tiết lịch hiến máu</ModalHeader>
                 <ModalBody>
                     <Table>
                     <tr>
-                        <th>Plan ID: </th>
+                        <th>Mã số: </th>
                         <th> {this.props.plan.planId}</th>
                     </tr>
                     <tr>
-                        <th>Date: </th>
+                        <th>Ngày tổ chức: </th>
                         <th> {this.props.plandetail.plandDate} </th>
                     </tr>
                     <tr>
-                        <th>Place:</th>
+                        <th>Nơi diễn ra:</th>
                         <th>{this.props.plandetail.plandPlace}</th>
                     </tr>
                     <tr>
-                        <th>Status: </th>
+                        <th>Trạng thái lịch: </th>
                         <th>{this.props.plan.planState}</th>
                     </tr>
                     <tr>
@@ -196,7 +196,7 @@ class Plan extends Component {
                         <th>{this.props.plan.quantity}</th>
                     </tr>
                     <tr>
-                        <th>Contact: </th>
+                        <th>Liên hệ: </th>
                         <th>{this.props.plandetail.plandContact}</th>
                     </tr>
                     <tr>
@@ -216,10 +216,10 @@ class Plan extends Component {
                 </ModalBody>
                 <ModalFooter>
                     {button}{" "}
-                    <Button onClick={this.toggle}>Close</Button>
+                    <Button onClick={this.toggle}>Đóng</Button>
                 </ModalFooter>
             <Modal fade={true} isOpen={this.state.nestedModal} toggle={this.toggleNested}>
-                <ModalHeader>Input reject reason:</ModalHeader>
+                <ModalHeader>Nhập lí do hủy:</ModalHeader>
                 <ModalBody>
                     <Input required type="text" className="reason" 
                             id="reason" 
@@ -227,8 +227,8 @@ class Plan extends Component {
                             innerRef={x=>(this.inputReason=x)} />
                 </ModalBody>
                 <ModalFooter>
-                    <Button color ="success" onClick={(e)=>{this.handleReject(e)}}>Continue</Button>
-                    <Button onClick={this.toggleNested}>Cancel</Button>
+                    <Button color ="success" onClick={(e)=>{this.handleReject(e)}}>Tiếp tục</Button>
+                    <Button onClick={this.toggleNested}>Đóng</Button>
                 </ModalFooter>
             </Modal>
             </Modal>

@@ -3,8 +3,13 @@
 }
 
 .carou-inner {
-   width: 70%;
+   width: 80%;
    max-height: 50%;
    margin:0 auto;
    margin-top: 3%;
+   padding-left: 30%;
+   opacity: 85%;
+   /* position: absolute; */
 }
+
+body {}

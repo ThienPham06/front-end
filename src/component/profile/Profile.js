@@ -49,11 +49,11 @@ class Profile extends Component {
         if(this.state.admin!=="ADN-NaN"){
             table=<Table>
             <tr>
-                <td>Admin ID: </td>
+                <td>Mã số cán bộ: </td>
                 <td>{this.state.admin.adminId}</td>
             </tr>
             <tr>
-                <td>Fullname: </td>
+                <td>Họ tên: </td>
                 <td></td>
             </tr>
             <tr>
@@ -61,7 +61,7 @@ class Profile extends Component {
                 <td></td>
             </tr>
             <tr>
-                <td>Department: </td>
+                <td>Khoa: </td>
                 <td></td>
             </tr>
         </Table>
@@ -69,11 +69,11 @@ class Profile extends Component {
             image=<CardImg top width="100%" height="100%" src={this.state.studentDetail.studentdetailPortrait} alt="Card image cap"/>
             table=<Table>
             <tr>
-                <td>Student ID: </td>
+                <td>Mã số sinh viên: </td>
                 <td>{this.state.student.studentId}</td>
             </tr>
             <tr>
-                <td>Fullname: </td>
+                <td>Họ tên: </td>
                 <td>{this.state.studentDetail.studentdetailFullname}</td>
             </tr>
             <tr>
@@ -81,11 +81,11 @@ class Profile extends Component {
                 <td>{this.state.studentDetail.studentdetailEmail}</td>
             </tr>
             <tr>
-                <td>Bloodgroup: </td>
+                <td>Nhóm máu: </td>
                 <td>{this.state.studentDetail.studentdetailBloodgroup}</td>
             </tr>
             <tr>
-                <td>Department: </td>
+                <td>Khoa: </td>
                 <td></td>
             </tr>
         </Table>
@@ -102,7 +102,7 @@ class Profile extends Component {
                             {image}
                             <CardBody>
                                 <CardTitle></CardTitle>                    
-                                <Button>Change image</Button>
+                                <Button>Đổi ảnh đại diện</Button>
                             </CardBody>
                         </Card>
                     </Col><br></br>

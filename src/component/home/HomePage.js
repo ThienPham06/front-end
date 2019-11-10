@@ -5,6 +5,7 @@ import './HomePage.css';
 import NavBar from '../navbar/NavBar';
 import {getAdminById} from '../../util/API';
 import LoadingSpinner from '../spinner/LoadingSpinner';
+import { Footer } from '../footer/Footer';
 
 class HomePage extends Component {
     constructor(props) {
@@ -41,11 +42,12 @@ class HomePage extends Component {
             )
         else {
         return ( 
-        <div>
+        <div className="homepage">
             <NavBar planCounting={sessionStorage.getItem("wtPlan")}
                     closedPlanCounting = {sessionStorage.getItem("clPlan")}
             />
-            <SlideShow />
+            <SlideShow className = "slide" />
+            <Footer />
         </div>
         );
         }

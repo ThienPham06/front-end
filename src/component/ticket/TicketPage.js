@@ -7,6 +7,7 @@ import ActionButton from '../action_button/ActionButton';
 import './TicketPage.css';
 import Ticket from './Ticket';
 import _ from 'lodash';
+import { Footer } from '../footer/Footer';
 
 class TicketPage extends Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class TicketPage extends Component {
     render() { 
         let planlistgrp;
         if(this.state.plans.length===0)
-            planlistgrp = <ListGroup><ListGroupItem>Do not have any closed plan yet...</ListGroupItem></ListGroup>
+            planlistgrp = <ListGroup><ListGroupItem>Không có lịch hiến máu đã đóng...</ListGroupItem></ListGroup>
         else
             planlistgrp =
             <ListGroup>
@@ -106,7 +107,7 @@ class TicketPage extends Component {
 
         let ticketlistgrp;
         if(this.state.tickets.length===0)
-            ticketlistgrp = <ListGroup><ListGroupItem>This plan do not have any ticket yet...</ListGroupItem></ListGroup>
+            ticketlistgrp = <ListGroup><ListGroupItem>Không có phiếu đăng kí tham gia nào...</ListGroupItem></ListGroup>
         else
             ticketlistgrp =
             <ListGroup>
@@ -124,7 +125,7 @@ class TicketPage extends Component {
         </ListGroup>;
 
         return ( 
-        <div>
+        <div className="ticketpage">
             <NavBar planCounting = {sessionStorage.getItem("wtPlan")}
                     closedPlanCounting={sessionStorage.getItem("clPlan")}
             /><br></br>
@@ -132,10 +133,10 @@ class TicketPage extends Component {
             <div className="listPlan">
                 <Container>
                     <Row>
-                        <Col xs="6">Closed plans with tickets:
+                        <Col xs="6">Lịch hiến máu đã đóng:
                             {planlistgrp}
                         </Col>
-                        <Col xs="6">Waiting tickets need to be checked:
+                        <Col xs="6">Các phiếu đăng kí tham gia cần xác nhận:
                             {ticketlistgrp}
                         </Col>
                     </Row>
@@ -148,6 +149,7 @@ class TicketPage extends Component {
                     student={this.state.student} 
                     planid={this.state.plan.planId}
                     />
+            <Footer />
         </div>
         );
     }
