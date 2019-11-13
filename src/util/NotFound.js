@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './NotFound.css';
 import NavBar from '../component/navbar/NavBar';
 import {Button} from 'reactstrap';
+import { Footer } from '../component/footer/Footer';
 
 class NotFound extends Component {
     
@@ -15,10 +16,11 @@ class NotFound extends Component {
                     401
                 </h1>
                 <div className="desc">
-                    Sorry! You don't have permission to access this page!
+                    Bạn không có quyền truy cập hoặc quyền thực hiện hành động này!
                 </div>
                 <Button className="go-back-btn" type="primary" size="large">Go Back</Button>
             </div>
+            <Footer />
         </div>
            
         );

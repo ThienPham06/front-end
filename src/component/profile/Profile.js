@@ -3,6 +3,8 @@ import {withRouter} from 'react-router-dom';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, Button, Table} from 'reactstrap';
 import {getStudentById, getAdminById, getStudentDetailById} from '../../util/API';
 import NavBar from '../navbar/NavBar';
+import { Footer } from '../footer/Footer';
+import './Profiles.css';
 
 class Profile extends Component {
     constructor(props) {
@@ -47,7 +49,9 @@ class Profile extends Component {
         let table;
         let image;
         if(this.state.admin!=="ADN-NaN"){
-            table=<Table>
+            table=
+            <div className="tableinfo">
+            <Table>
             <tr>
                 <td>Mã số cán bộ: </td>
                 <td>{this.state.admin.adminId}</td>
@@ -64,10 +68,12 @@ class Profile extends Component {
                 <td>Khoa: </td>
                 <td></td>
             </tr>
-        </Table>
+        </Table></div>
         }else{
             image=<CardImg top width="100%" height="100%" src={this.state.studentDetail.studentdetailPortrait} alt="Card image cap"/>
-            table=<Table>
+            table=
+            <div className="tableinfo">
+            <Table>
             <tr>
                 <td>Mã số sinh viên: </td>
                 <td>{this.state.student.studentId}</td>
@@ -88,17 +94,18 @@ class Profile extends Component {
                 <td>Khoa: </td>
                 <td></td>
             </tr>
-        </Table>
+        </Table></div>
+        
         }
         return ( 
             <div>
             <NavBar planCounting={sessionStorage.getItem("wtPlan")}
                     closedPlanCounting={sessionStorage.getItem("clPlan")}
-            />
+            /><br></br><br></br><br></br>
             <Container>
                 <Row>
                     <Col xs="6">
-                        <Card>
+                        <Card className="usercard">
                             {image}
                             <CardBody>
                                 <CardTitle></CardTitle>                    
@@ -111,6 +118,7 @@ class Profile extends Component {
                     </Col>
                 </Row>
             </Container>
+            <Footer />
             </div>
         );
     }
