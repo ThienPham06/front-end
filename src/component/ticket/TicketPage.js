@@ -1,13 +1,14 @@
 import React, {Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import {getPlanByState, getWaitingTickets, getStudentByTicket} from '../../util/API';
-import {ListGroup, ListGroupItem, Container, Row, Col} from 'reactstrap';
+import {ListGroup, ListGroupItem, Container, Row, Col, Button, Toast, ToastHeader, ToastBody} from 'reactstrap';
 import NavBar from '../navbar/NavBar';
 import ActionButton from '../action_button/ActionButton';
 import './TicketPage.css';
 import Ticket from './Ticket';
 import _ from 'lodash';
 import { Footer } from '../footer/Footer';
+import Scanner from '../scanner/Scanner';
 
 class TicketPage extends Component {
     constructor(props) {
@@ -19,8 +20,11 @@ class TicketPage extends Component {
             ticket:[],
             dropRight:false,
             modal: false,
+            modalscan:false,
             student:[],
-            reloadTicket :false
+            reloadTicket :false,
+            scanning:false,
+            results:[]
          }
     }
 
@@ -32,12 +36,28 @@ class TicketPage extends Component {
     //     this.setState({tickets:newtickets})
     // }
 
+    _scan = () => {
+        this.setState({ scanning: !this.state.scanning })
+      }
+    
+      _onDetected = result => {
+        this.setState({ results: this.state.results.concat([result]) });
+        console.log(this.state.results)
+      }
+
     handleToggle=(e)=>{
         e.preventDefault();
         this.setState(prevState => ({
             modal: !prevState.modal,
           }));
     };
+
+    handleScannerBox = (e)=>{
+        e.preventDefault();
+        this.setState(prevState => ({
+            modalscan: !prevState.modalscan,
+          }));        
+    }
 
     loadClosedPlans=()=>{
         getPlanByState("closed").then(response => {
@@ -133,13 +153,21 @@ class TicketPage extends Component {
             <div className="listPlan">
                 <Container>
                     <Row>
-                        <Col xs="6">Lịch hiến máu đã đóng:
+                        <Col xs="4">Lịch hiến máu đã đóng:
                             {planlistgrp}
                         </Col>
-                        <Col xs="6">Các phiếu đăng kí tham gia cần xác nhận:
+                        <Col xs="4">Các phiếu đăng kí tham gia cần xác nhận:
                             {ticketlistgrp}
                         </Col>
-                    </Row>
+                        <Col xs="4">
+                            <Toast isOpen={this.state.modalscan} className='scanner'>
+                                <ToastHeader>BARCODE READER</ToastHeader>
+                                <ToastBody>
+                                    <Scanner onDetected={this._onDetected} />
+                                </ToastBody>
+                            </Toast>                            
+                        </Col>   
+                    </Row>                
                 </Container>
             </div>
             <Ticket modalFromList={this.state.modal}
@@ -149,7 +177,10 @@ class TicketPage extends Component {
                     student={this.state.student} 
                     planid={this.state.plan.planId}
                     />
+            <Button onClick={(e)=>this.handleScannerBox(e)}>Scan</Button>
             <Footer />
+
+
         </div>
         );
     }

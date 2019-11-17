@@ -105,6 +105,19 @@ export async function getAdminById(adminId){
     })
 }
 
+export async function getAdminDetailById(adminId){
+    return await axios.get(API_BASE_URL + '/profile/admindetail/' + adminId, {
+        adminId:adminId
+    }).then(res=>{
+        if(res.status===200&&res!=null){
+            const addt = res.data;
+            return addt;
+        }       
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
 export async function getStudentDetailById(studentId){
     return await axios.get(API_BASE_URL + '/profile/studentdetail/'+studentId, {
         studentId: studentId

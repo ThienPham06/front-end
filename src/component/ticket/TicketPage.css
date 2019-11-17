@@ -18,3 +18,8 @@
     top: 0;
     overflow: auto;
 }
+
+.scanner {
+    width: 600px;
+    height: 450px;
+}

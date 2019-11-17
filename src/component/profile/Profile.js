@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, Button, Table} from 'reactstrap';
-import {getStudentById, getAdminById, getStudentDetailById} from '../../util/API';
+import {getStudentById, getAdminById, getStudentDetailById, getAdminDetailById} from '../../util/API';
 import NavBar from '../navbar/NavBar';
 import { Footer } from '../footer/Footer';
 import './Profiles.css';
@@ -13,6 +13,7 @@ class Profile extends Component {
             student:[],
             studentDetail:[],
             admin:[],
+            adminDetail:[],
             inputid:''
          }
     }
@@ -29,7 +30,6 @@ class Profile extends Component {
                 this.setState({studentDetail: response})
             })
         }
-  
     }
 
     loadAdmin=(id)=>{
@@ -38,10 +38,19 @@ class Profile extends Component {
         })
     }
 
+    loadAdminDetail = (id) =>{
+        if(this.state.admin!=="ADN-NaN"){
+            getAdminDetailById(id).then(response=>{
+                this.setState({adminDetail: response})
+            })
+        }       
+    }
+
     componentDidMount(){
         this.loadAdmin(sessionStorage.getItem("id"));
         this.loadStudent(sessionStorage.getItem("id")); 
         this.loadStudentDetail(sessionStorage.getItem("id"));
+        this.loadAdminDetail(sessionStorage.getItem("id"));
     }
 
     render() {
@@ -58,11 +67,11 @@ class Profile extends Component {
             </tr>
             <tr>
                 <td>Họ tên: </td>
-                <td></td>
+                <td>{this.state.adminDetail.admindetailFullname}</td>
             </tr>
             <tr>
                 <td>Email: </td>
-                <td></td>
+                <td>{this.state.adminDetail.admindetailEmail}</td>
             </tr>
             <tr>
                 <td>Khoa: </td>

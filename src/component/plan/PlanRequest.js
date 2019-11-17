@@ -5,6 +5,7 @@ import NavBar from '../navbar/NavBar';
 import './PlanRequest.css';
 import { createRequest } from '../../util/API';
 import swal from '@sweetalert/with-react';
+import { Footer } from '../footer/Footer';
 
 class PlanRequest extends Component {
     constructor(props) {
@@ -65,17 +66,17 @@ class PlanRequest extends Component {
             if(res===true){
                 this.props.history.push('/planpage');
                 swal({
-                    title: "Successfully!",
-                    text: "Plan request has been created!",
+                    title: "Thành công!",
+                    text: "Yêu cầu mới đã được thêm thành công!",
                     icon: "success",
                     button: "OK",
                   });
             } else {
                 swal({
-                    title: "Error!",
-                    text: "Plan request id is existing!",
+                    title: "Lỗi!",
+                    text: "Mã số lịch đã tồn tại!",
                     icon: "error",
-                    button: "Try again",
+                    button: "Thử lại",
                   })
             }
         }).catch(err=>{
@@ -90,33 +91,33 @@ class PlanRequest extends Component {
         if(errors.date.length>0 || errors.planid.length>0){
             subBut = <Button disabled>Submit</Button>
         }else{
-            subBut = <Button color='success' onClick={(e)=>this.handleSubmit(e)}>Submit</Button>
+            subBut = <Button color='success' onClick={(e)=>this.handleSubmit(e)}>Tạo</Button>
         }
         return ( 
-        <div>
+        <div className="planrequest">
             <NavBar planCounting={sessionStorage.getItem("wtPlan")}
                     closedPlanCounting={sessionStorage.getItem("clPlan")}
             /><br></br>
-            <div  className='title'><Label>Create a plan request:</Label></div>
-            <Form>
+            <div  className='title'><Label>Tạo yêu cầu thêm lịch hiến máu:</Label></div>
+            <Form className="form">
                 <FormGroup row>
-                    <Label for="planId" sm={4}>Plan ID: </Label>
+                    <Label for="planId" sm={4}>Mã số : </Label>
                     <Col sm={10}>
                         <Input
                             type="text" 
                             name="planId" 
                             id="planId" 
-                            placeholder="Plan id. Example: 'PL01'"
+                            placeholder="Mẫu: 'PL01'"
                             innerRef={x=>(this.idInput=x)}
                             onChange={(e)=>this.handleChange(e)}  required/>
                         {errors.planid.length>0 && <div className='err'><span>{errors.planid}</span></div>}
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="planDate" sm={4}>Date: </Label>
+                    <Label for="planDate" sm={4}>Ngày tổ chức: </Label>
                     <Col sm={10}>
                         <Input required type="date" name="planDate" id="planDate" 
-                            placeholder="Date held"
+                            placeholder="Ngày tổ chức"
                             innerRef={x=>(this.dateInput=x)} 
                             onChange={(e)=>this.handleChange(e)}
                             />
@@ -124,48 +125,48 @@ class PlanRequest extends Component {
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="planPlace" sm={4}>Place: </Label>
+                    <Label for="planPlace" sm={4}>Địa điểm: </Label>
                     <Col sm={10}>
                         <Input required type="textarea" 
                             name="planPlace" 
                             id="planPlace" 
-                            placeholder="Venue"
+                            placeholder="Địa điểm tổ chức"
                             innerRef={x=>(this.venueInput=x)} />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="planContact" sm={4}>Contact: </Label>
+                    <Label for="planContact" sm={4}>Liên hệ: </Label>
                     <Col sm={10}>
                         <Input required type="text" name="planContact" 
                             id="planContact" 
-                            placeholder="For contact" 
+                            placeholder="Họ tên, số điện thoại" 
                             innerRef={x=>(this.contactInput=x)}
                             />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="quantity" sm={4}>Quantity: </Label>
+                    <Label for="quantity" sm={4}>Số lượng dự kiến: </Label>
                     <Col sm={10}>
                         <Input required type='number' name="quantity" 
                             id="quantity" 
-                            placeholder="Quantity" 
+                            placeholder="Sô lượng" 
                             innerRef={x=>(this.quantityInput=x)}
                             />
                     </Col>
                 </FormGroup>
                 <FormGroup row>
-                    <Label for="creatorID" sm={4}>Creator id: </Label>
+                    <Label for="creatorID" sm={4}>Mã số người tạo: </Label>
                     <Col sm={10}>
                         <Input required disabled type="text" id="creatorID" 
-                            placeholder="Plan request's creator id" 
                             value={sessionStorage.getItem("id")}/>      
                     </Col>
                 </FormGroup>
                 <FormGroup className='buttonGr'>
                     {subBut} {' '}
-                    <Button href='/planpage' >Cancel</Button>
+                    <Button href='/planpage' >Hủy</Button>
                 </FormGroup>
             </Form>
+            <Footer />
             </div>
         );
     }
