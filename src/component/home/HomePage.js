@@ -3,9 +3,9 @@ import {withRouter} from 'react-router-dom';
 import SlideShow from '../sildeshow/SlideShow';
 import './HomePage.css';
 import NavBar from '../navbar/NavBar';
-import {getAdminById} from '../../util/API';
 import LoadingSpinner from '../spinner/LoadingSpinner';
 import { Footer } from '../footer/Footer';
+import ActionButton from '../action_button/ActionButton';
 
 class HomePage extends Component {
     constructor(props) {
@@ -16,22 +16,22 @@ class HomePage extends Component {
         }
     }
 
-    setRole = () => {
-        const id = sessionStorage.getItem("id");
-        getAdminById(id).then(res=>{
-            if(res==='ADN-NaN'){
-                this.setState({currentRole: "STUDENT"});
-            }
-            else {
-                this.setState({currentRole: "ADMIN"})
-            }
-            sessionStorage.setItem("role", this.state.currentRole);
-            console.log(sessionStorage.getItem("role"));
-        })   
-    }
+    // setRole = () => {
+    //     const id = sessionStorage.getItem("id");
+    //     getAdminById(id).then(res=>{
+    //         if(res==='ADN-NaN'){
+    //             this.setState({currentRole: "STUDENT"});
+    //         }
+    //         else {
+    //             this.setState({currentRole: "ADMIN"})
+    //         }
+    //         sessionStorage.setItem("role", this.state.currentRole);
+    //         console.log(sessionStorage.getItem("role"));
+    //     })   
+    // }
 
     componentDidMount(){
-        this.setRole();
+        // this.setRole();
         this.setState({isLoading:false})
     }
 
@@ -45,7 +45,8 @@ class HomePage extends Component {
         <div className="homepage">
             <NavBar planCounting={sessionStorage.getItem("wtPlan")}
                     closedPlanCounting = {sessionStorage.getItem("clPlan")}
-            />
+            /><br></br>
+            <ActionButton />
             <SlideShow className = "slide" />
             <Footer />
         </div>

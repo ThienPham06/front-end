@@ -25,11 +25,17 @@ class NavBar extends Component {
     }
 
     render() { 
-        let ticketNav;
+        let ticketHref;
         if(sessionStorage.getItem('role')==="ADMIN")
-            ticketNav = <a href="/ticketpage">Phiếu đăng kí</a>
+            ticketHref = "/ticketpage"
         else if(sessionStorage.getItem('role')==="STUDENT")
-            ticketNav = <a href="/notfound">Phiếu đăng kí</a>
+            ticketHref = "/notfound"
+
+        let historyHref;
+        if(sessionStorage.getItem('role')==="ADMIN")
+            historyHref="/adhistory"
+        else if(sessionStorage.getItem('role')==="STUDENT")
+            historyHref="/sthistory"
 
         return ( 
             <Navbar color="light" light >
@@ -47,13 +53,13 @@ class NavBar extends Component {
                         </Badge>
                     </NavItem>
                     <NavItem className="tk">
-                        <FontAwesomeIcon icon={faFileMedical} /> {ticketNav}
+                        <FontAwesomeIcon icon={faFileMedical} /> <a href={ticketHref}>Xác nhận phiếu</a>
                         <Badge className="notify" color="danger" pill>
                             {this.props.closedPlanCounting}
                         </Badge>
                     </NavItem>
                     <NavItem className="hs">
-                        <FontAwesomeIcon icon={faHistory} /> <a href="/history">Lịch sử</a>
+                        <FontAwesomeIcon icon={faHistory} /> <a href={historyHref}>Lịch sử</a>
                     </NavItem>
                 </Nav>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />

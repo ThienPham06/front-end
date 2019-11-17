@@ -12,6 +12,7 @@ import NotFound from './util/NotFound';
 import Profile from './component/profile/Profile';
 import TicketPage from './component/ticket/TicketPage';
 import HistoryPage from './component/history/HistoryPage';
+import StHistory from './component/history/StHistory';
 const routing = (
     <BrowserRouter>
         <div>
@@ -22,7 +23,8 @@ const routing = (
             <Route path="/planpage/create" component = { PlanRequest } />
             <Route path="/ticketpage" component = { TicketPage } />
             <Route path="/notfound" component={ NotFound } />
-            <Route path="/history" component={ HistoryPage } />
+            <Route path="/adhistory" component={ HistoryPage } />
+            <Route path="/sthistory" component={ StHistory } />
         </div>
     </BrowserRouter>
 )

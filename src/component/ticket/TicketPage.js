@@ -42,7 +42,7 @@ class TicketPage extends Component {
     
       _onDetected = result => {
         this.setState({ results: this.state.results.concat([result]) });
-        console.log(this.state.results)
+        // console.log(this.state.results)
       }
 
     handleToggle=(e)=>{

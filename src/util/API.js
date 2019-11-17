@@ -1,6 +1,5 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
 import axios from 'axios';
-import { async } from 'q';
 
 axios.defaults.headers.common['Authorization'] = 'Bearer'+ ACCESS_TOKEN;
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';

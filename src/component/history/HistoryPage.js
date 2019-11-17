@@ -2,8 +2,9 @@ import React, {Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import NavBar from '../navbar/NavBar';
 import ActionButton from '../action_button/ActionButton';
-import { ListGroup, ListGroupItem, Container, Row, Col, Button } from 'reactstrap';
+import { ListGroup, ListGroupItem, Container, Row, Col } from 'reactstrap';
 import {getClosedPlansCreateByAdmin, getWaitingPlansCreateByAdmin, getApprovedPlanByChecker} from "../../util/API";
+import { Footer } from '../footer/Footer';
 
 class HistoryPage extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class HistoryPage extends Component {
         let approvedlg;
 
         if(this.state.closedPlans.length===0)
-            closedlg = <ListGroup><ListGroupItem>You haven't created any plan that closed...</ListGroupItem></ListGroup>
+            closedlg = <ListGroup><ListGroupItem>Bạn chưa có lịch đã đóng nào ...</ListGroupItem></ListGroup>
         else
             closedlg = 
                 <ListGroup> {this.state.closedPlans.map((plan, index)=>{
@@ -58,7 +59,7 @@ class HistoryPage extends Component {
                 </ListGroup>
 
         if(this.state.waitingPlans.length===0)
-            waitinglg = <ListGroup><ListGroupItem>You haven't created any plan that waiting...</ListGroupItem></ListGroup>
+            waitinglg = <ListGroup><ListGroupItem>Bạn chưa có lịch nào đang đợi xác nhận...</ListGroupItem></ListGroup>
         else
             waitinglg = 
                 <ListGroup> {this.state.waitingPlans.map((plan, index)=>{
@@ -71,7 +72,7 @@ class HistoryPage extends Component {
                 </ListGroup>        
 
         if(this.state.approvedPlans.length===0)
-            approvedlg = <ListGroup><ListGroupItem>You haven't checked any plan...</ListGroupItem></ListGroup>
+            approvedlg = <ListGroup><ListGroupItem>Bạn chưa xác nhận hoặc hủy lịch nào...</ListGroupItem></ListGroup>
         else
             approvedlg = 
                 <ListGroup> {this.state.approvedPlans.map((plan, index)=>{
@@ -84,7 +85,7 @@ class HistoryPage extends Component {
                 </ListGroup>   
 
         return ( 
-        <div>
+        <div className="hpage">
             <NavBar planCounting = {sessionStorage.getItem("wtPlan")}
                     closedPlanCounting={sessionStorage.getItem("clPlan")}
             /><br></br>
@@ -92,18 +93,19 @@ class HistoryPage extends Component {
             <div className="xxx">
                 <Container>
                     <Row>
-                        <Col xs="4">Closed plans you created: 
+                        <Col xs="4">Lịch đã đóng do bạn tạo: 
                             {closedlg}
                         </Col>
-                        <Col xs="4">Your waiting request:
+                        <Col xs="4">Yêu cầu tạo lịch của bạn đang đợi xác nhận:
                             {waitinglg}
                         </Col>
-                        <Col xs="4">Plans that you checked:
+                        <Col xs="4">Lịch bạn đã xác nhận hoặc hủy bỏ:
                             {approvedlg}
                         </Col>
                     </Row>
                 </Container>
             </div>
+            <Footer />
         </div>
         );
     }

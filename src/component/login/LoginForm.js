@@ -2,7 +2,7 @@ import { Form, FormGroup, Card, CardBody, CardImg, Button, FormFeedback, Input }
 import React, { Component } from 'react';
 import './LoginForm.css';
 import '../../util/API.js'
-import { login } from '../../util/API.js';
+import { login, getAdminById } from '../../util/API.js';
 import {withRouter} from 'react-router-dom';
 import {ACCESS_TOKEN } from '../../constant/index.js';
 
@@ -32,6 +32,18 @@ class LoginForm extends Component {
                 console.log(err);  
             });
             sessionStorage.setItem("id", this.idInput.value);
+
+            const id = sessionStorage.getItem("id");
+        getAdminById(id).then(res=>{
+            if(res==='ADN-NaN'){
+                this.setState({currentRole: "STUDENT"});
+            }
+            else {
+                this.setState({currentRole: "ADMIN"})
+            }
+            sessionStorage.setItem("role", this.state.currentRole);
+            console.log(sessionStorage.getItem("role"));
+        })   
             
         }
         
