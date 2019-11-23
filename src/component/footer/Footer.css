@@ -8,14 +8,15 @@
 }
 
 .footer {
-    /* position: absolute;
-    right: 0;
-    bottom: 0;
+    /* position: relative; */
+    /*right: 0;
+
     left: 0;
     top: 89%; */
     /* position: absolute; */
-    margin-top: 100%;
-    padding-bottom: 0;
+    margin-top: 6%;
+    /* margin-bottom: 0; 
+    bottom: 0; */
     background-image: url('../footer/footer.jpg');
     opacity: 0.6;
     border-top: 10px solid cadetblue !important;

@@ -5,6 +5,7 @@ import ActionButton from '../action_button/ActionButton';
 import { ListGroup, ListGroupItem, Container, Row, Col } from 'reactstrap';
 import {getClosedPlansCreateByAdmin, getWaitingPlansCreateByAdmin, getApprovedPlanByChecker} from "../../util/API";
 import { Footer } from '../footer/Footer';
+import './HistoryPage.css';
 
 class HistoryPage extends Component {
     constructor(props) {

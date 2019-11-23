@@ -24,7 +24,8 @@ class TicketPage extends Component {
             student:[],
             reloadTicket :false,
             scanning:false,
-            results:[]
+            results:'',
+            l_results:[] 
          }
     }
 
@@ -32,16 +33,14 @@ class TicketPage extends Component {
         this.setState({modal: !modalFromTicket})
     }
 
-    // ticketCallback = (newtickets) => {
-    //     this.setState({tickets:newtickets})
-    // }
-
     _scan = () => {
         this.setState({ scanning: !this.state.scanning })
       }
     
       _onDetected = result => {
-        this.setState({ results: this.state.results.concat([result]) });
+        // this.setState({ results: this.state.results.concat([result]) });
+        this.setState({results:result.codeResult.code})
+        this.state.l_results.push(result.codeResult.code)
         // console.log(this.state.results)
       }
 
@@ -81,9 +80,6 @@ class TicketPage extends Component {
         this.loadClosedPlans();
     }
 
-    // componentWillUpdate(){
-    //     this.loadWaitingTicketsByPlan(this.state.plan.planId);
-    // }
 
     render() { 
         let planlistgrp;
@@ -114,13 +110,9 @@ class TicketPage extends Component {
                     list,
                     };
                 });
-                    
-                    // document.getElementById("wwq").setAttribute("class", "list-group-itewm");
-                    }
-                
+                    }       
                 }>
-                    { plan.planId } 
-                   
+                   Mã số: { plan.planId }    
                 </ListGroupItem>);
             })}
             </ListGroup>;
@@ -138,7 +130,7 @@ class TicketPage extends Component {
                         this.setState({ticket:ticket});
                         this.loadStudentByTicketId(ticket.ticketId);
                     }}>
-                        {ticket.ticketId}
+                        Mã số phiếu: { ticket.ticketId}
                     </ListGroupItem>
                 );
             })}
@@ -153,21 +145,25 @@ class TicketPage extends Component {
             <div className="listPlan">
                 <Container>
                     <Row>
-                        <Col xs="4">Lịch hiến máu đã đóng:
+                        <Col xs="6">Lịch hiến máu đã đóng:
                             {planlistgrp}
                         </Col>
-                        <Col xs="4">Các phiếu đăng kí tham gia cần xác nhận:
+                        <Col xs="6">Các phiếu đăng kí tham gia cần xác nhận:
                             {ticketlistgrp}
                         </Col>
-                        <Col xs="4">
-                            <Toast isOpen={this.state.modalscan} className='scanner'>
-                                <ToastHeader>BARCODE READER</ToastHeader>
-                                <ToastBody>
-                                    <Scanner onDetected={this._onDetected} />
-                                </ToastBody>
-                            </Toast>                            
-                        </Col>   
-                    </Row>                
+                    </Row> <br></br><br></br>     
+                    <Row>
+                        <Col xs="6">
+                            {this.state.scanning ? <Scanner onDetected={this._onDetected} /> : null}
+                        </Col>
+                        <Col xs="6">{this.state.scanning ? 'Kết quả quét:' : ''}
+                            {/* {this.state.results} */}
+                            <ListGroup>{this.state.l_results.map((res, index)=>{
+                                return(<ListGroupItem>{res}</ListGroupItem>)
+                            })}
+                            </ListGroup>
+                        </Col>
+                    </Row>       
                 </Container>
             </div>
             <Ticket modalFromList={this.state.modal}
@@ -177,7 +173,8 @@ class TicketPage extends Component {
                     student={this.state.student} 
                     planid={this.state.plan.planId}
                     />
-            <Button onClick={(e)=>this.handleScannerBox(e)}>Scan</Button>
+            
+            <div className='scanbtn' ><Button color='success' onClick={this._scan}>Scan</Button></div>
             <Footer />
 
 

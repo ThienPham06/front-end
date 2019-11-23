@@ -63,6 +63,7 @@ class Plan extends Component {
 
     handleReject = (event) => {
         event.preventDefault();
+        if(sessionStorage.getItem("role")==='ADMIN'){
             rejectRequest(this.props.plan.planId, this.inputReason.value, sessionStorage.getItem("id")).then(res=>{
                 if(res===true){
                     swal({
@@ -82,7 +83,9 @@ class Plan extends Component {
                         button: "OK",
                       });
                 }
-            })
+            })}else{
+                this.props.history.push("/notfound");
+            }
       
     }
 
@@ -133,7 +136,7 @@ class Plan extends Component {
                       }).then(()=>{
                         this.toggle();
                       })
-                }else {
+                }else if(res==="2wt"){
                     swal({
                         title: "Lỗi!",
                         text: "Bạn không thể đăng ký tham gia hiến máu 2 lần cùng lúc!",
@@ -142,7 +145,16 @@ class Plan extends Component {
                       }).then(()=>{
                         this.toggle();
                       })
-                } 
+                } else{
+                    swal({
+                        title: "Lỗi!",
+                        text: "Đăng trong thời gian 3 tháng kể từ lần hiến máu gần nhất của bạn, vui lòng quay lại sau !",
+                        icon: "error",
+                        button: "OK",
+                      }).then(()=>{
+                        this.toggle();
+                      })                   
+                }
             })
         }
         } 

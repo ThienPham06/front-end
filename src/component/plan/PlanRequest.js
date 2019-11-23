@@ -34,7 +34,7 @@ class PlanRequest extends Component {
     handleChange = (event) => {
         event.preventDefault();
         const { name, value } = event.target;
-        var valid = this.getValidStringDate(8);
+        var valid = this.getValidStringDate(9);
         var input = this.dateInput.value;
         let errors = this.state.errors;
         switch(name){
@@ -42,7 +42,7 @@ class PlanRequest extends Component {
                 errors.planid = value.length > 5 ? 'Plan ID must less than 5 characters!' : '';
                 break;
             case 'planDate':
-                errors.date = Date.parse(input) <= Date.parse(valid) ? 'Date have to be 8 days more from today!' : ''; 
+                errors.date = Date.parse(input) <= Date.parse(valid) ? 'Date have to be 9 days more from today!' : ''; 
                 break;
             case 'quantity':
                 errors.quantity = value <=0 || value > 200 ? "Plan request attendants has to > 0 and < 200" : ';'
@@ -70,6 +70,8 @@ class PlanRequest extends Component {
                     text: "Yêu cầu mới đã được thêm thành công!",
                     icon: "success",
                     button: "OK",
+                  }).then(()=>{
+                    window.location.reload();
                   });
             } else {
                 swal({
@@ -82,7 +84,7 @@ class PlanRequest extends Component {
         }).catch(err=>{
             console.log(err);      
         })
-    
+
     }
 
     render() { 

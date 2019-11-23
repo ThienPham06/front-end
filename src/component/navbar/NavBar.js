@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../navbar/NavBar.css'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Badge } from 'reactstrap';
-import {ACCESS_TOKEN } from '../../constant/index.js';
+// import {ACCESS_TOKEN } from '../../constant/index.js';
 import {withRouter} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDatabase, faFileAlt, faHistory, faFileMedical } from '@fortawesome/free-solid-svg-icons';
@@ -72,6 +72,10 @@ class NavBar extends Component {
                         <NavItem>
                             <i className="fa fa-cog"></i>
                             <NavLink href=''>Cài đặt</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <i className="fa fa-mail"></i>
+                            <NavLink href='http://gmail.com' target="_blank">Email</NavLink>
                         </NavItem>
                         <NavItem>
                             <i className="fa fa-sign-out-alt"></i>

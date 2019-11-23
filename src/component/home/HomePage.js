@@ -6,6 +6,7 @@ import NavBar from '../navbar/NavBar';
 import LoadingSpinner from '../spinner/LoadingSpinner';
 import { Footer } from '../footer/Footer';
 import ActionButton from '../action_button/ActionButton';
+import { getPlanByState } from '../../util/API';
 
 class HomePage extends Component {
     constructor(props) {
@@ -30,9 +31,25 @@ class HomePage extends Component {
     //     })   
     // }
 
+
+    loadClosedPlans=()=>{
+        getPlanByState("closed").then(response => {
+            sessionStorage.setItem("clPlan", response.length);
+        })
+    };
+
+    loadWaitingPlans=()=>{
+        getPlanByState("waiting").then(response => {
+            sessionStorage.setItem("wtPlan", response.length);
+
+        })
+    };
+
     componentDidMount(){
         // this.setRole();
-        this.setState({isLoading:false})
+        this.setState({isLoading:false});
+        this.loadClosedPlans();
+        this.loadWaitingPlans();
     }
 
     render() { 

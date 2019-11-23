@@ -23,3 +23,8 @@
     width: 600px;
     height: 450px;
 }
+
+.scanbtn {
+    margin: 0 auto; 
+    text-align: center;
+}

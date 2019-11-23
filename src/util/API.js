@@ -1,5 +1,6 @@
 import {ACCESS_TOKEN, API_BASE_URL } from '../constant';
 import axios from 'axios';
+import { async } from 'q';
 
 axios.defaults.headers.common['Authorization'] = 'Bearer'+ ACCESS_TOKEN;
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -149,9 +150,10 @@ export async function approveRequest(planId, adminid){
     })
 }
 
-export async function rejectRequest(planId, reason, adminid){
-    return axios.put(API_BASE_URL + '/plans/reject/' + planId, reason, adminid,{
-        planId:planId
+export async function rejectRequest(planId, reason, adminId){
+    return axios.put(API_BASE_URL + '/plans/reject/' + planId +'/' + adminId, reason, {
+        planId:planId,
+        adminId:adminId
     }).then(res=>{
         return res.data.success;
     }).catch(err=>{
@@ -254,6 +256,15 @@ export async function getWaitingPlansCreateByAdmin(adminid){
 
 export async function getApprovedPlanByChecker(adminid){
     return await axios.get(API_BASE_URL + '/plans/approvedBy/' + adminid, {
+    }).then(res=>{
+        return res.data; 
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function getPlansByStudent(studentId){
+    return await axios.get(API_BASE_URL + '/plans/registered/' + studentId, {
     }).then(res=>{
         return res.data; 
     }).catch(err=>{

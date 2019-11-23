@@ -51,16 +51,16 @@ class PlanPage extends Component {
     loadClosedPlans=()=>{
         getPlanByState("closed").then(response => {
             this.setState({closedPlans: response});
-            this.setState({closedPlanCount:response.length});
-            sessionStorage.setItem("clPlan", response.length);
+            // this.setState({closedPlanCount:response.length});
+            // sessionStorage.setItem("clPlan", response.length);
         })
     };
 
     loadWaitingPlans=()=>{
         getPlanByState("waiting").then(response => {
             this.setState({waitingPlans: response});
-            this.setState({planCount:response.length});
-            sessionStorage.setItem("wtPlan", response.length);
+            // this.setState({planCount:response.length});
+            // sessionStorage.setItem("wtPlan", response.length);
 
         })
     };
@@ -70,7 +70,7 @@ class PlanPage extends Component {
         this.loadClosedPlans();
         this.loadWaitingPlans();
         this.setState({role: sessionStorage.getItem("role")}); 
-        sessionStorage.setItem("wtPlan",this.state.planCount);
+        // sessionStorage.setItem("wtPlan",this.state.planCount);
         this.setState({isLoading:false});
         
     };
@@ -123,7 +123,7 @@ class PlanPage extends Component {
                 // });
 
                     }} >
-                    { plan.planId }
+                    Mã số:  { plan.planId }
                 </ListGroupItem>
                 );
             })}
@@ -141,7 +141,7 @@ class PlanPage extends Component {
                     this.loadPlandetail(plan.planId);
                     this.ticketProgress(plan.planId);
                     }}>
-                    { plan.planId }
+                    Mã số: { plan.planId }
                 </ListGroupItem>
                 );
             })}
@@ -158,7 +158,7 @@ class PlanPage extends Component {
                     this.setState({plan: plan});
                     this.loadPlandetail(plan.planId)}
                     }>
-                    { plan.planId } 
+                   Mã số:  { plan.planId } 
                 </ListGroupItem>);
             })}
         </ListGroup>;
@@ -171,8 +171,8 @@ class PlanPage extends Component {
         else {
         return (
         <div className="planpage">
-            <NavBar planCounting = {this.state.planCount}
-                    closedPlanCounting = {this.state.closedPlanCount}
+            <NavBar planCounting = {sessionStorage.getItem('wtPlan')}
+                    closedPlanCounting = {sessionStorage.getItem("clPlan")}
             /><br></br>
             <ActionButton /><br></br>
             <div>
