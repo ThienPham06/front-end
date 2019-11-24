@@ -1,7 +1,7 @@
 import React, {Component } from 'react';
 import {withRouter} from 'react-router-dom';
-import {getPlanByState, getWaitingTickets, getStudentByTicket} from '../../util/API';
-import {ListGroup, ListGroupItem, Container, Row, Col, Button, Toast, ToastHeader, ToastBody} from 'reactstrap';
+import {getPlanByState, getWaitingTickets, getStudentByTicket,getWaitingStudentIds} from '../../util/API';
+import {ListGroup, ListGroupItem, Container, Row, Col, Button, Toast, ToastHeader, ToastBody, InputGroup, Input} from 'reactstrap';
 import NavBar from '../navbar/NavBar';
 import ActionButton from '../action_button/ActionButton';
 import './TicketPage.css';
@@ -25,7 +25,9 @@ class TicketPage extends Component {
             reloadTicket :false,
             scanning:false,
             results:'',
-            l_results:[] 
+            l_results:[],
+            list_ticketId:[],
+            list_studentids:[]
          }
     }
 
@@ -42,6 +44,10 @@ class TicketPage extends Component {
         this.setState({results:result.codeResult.code})
         this.state.l_results.push(result.codeResult.code)
         // console.log(this.state.results)
+      }
+
+      handleMTFK = (x) => {
+        console.log(this.state.list_studentids.includes(x))
       }
 
     handleToggle=(e)=>{
@@ -68,7 +74,15 @@ class TicketPage extends Component {
         getWaitingTickets(planid).then(res=>{
             this.setState({tickets:res});
         })
+
     }
+
+    loadStudentIds = (planid) => {
+        getWaitingStudentIds(planid).then(res=>{
+          this.setState({list_studentids:res});
+        })
+
+      }
 
     loadStudentByTicketId = (id) => {
         getStudentByTicket(id).then(res=>{
@@ -94,6 +108,7 @@ class TicketPage extends Component {
                 // onMouseMove={}
                 onClick={(e)=>{
                     this.loadWaitingTicketsByPlan(plan.planId);
+                    this.loadStudentIds(plan.planId);
                     this.setState({plan: plan});
                     let idx = _.findIndex(this.state.plans, function(p){
                         return p.planId === plan.planId;
@@ -118,6 +133,7 @@ class TicketPage extends Component {
             </ListGroup>;
 
         let ticketlistgrp;
+        // let ticketIDs = [];
         if(this.state.tickets.length===0)
             ticketlistgrp = <ListGroup><ListGroupItem>Không có phiếu đăng kí tham gia nào...</ListGroupItem></ListGroup>
         else
@@ -129,6 +145,7 @@ class TicketPage extends Component {
                         this.handleToggle(e);
                         this.setState({ticket:ticket});
                         this.loadStudentByTicketId(ticket.ticketId);
+
                     }}>
                         Mã số phiếu: { ticket.ticketId}
                     </ListGroupItem>
@@ -145,18 +162,40 @@ class TicketPage extends Component {
             <div className="listPlan">
                 <Container>
                     <Row>
-                        <Col xs="6">Lịch hiến máu đã đóng:
+                        <Col xs="4">Lịch hiến máu đã đóng:
                             {planlistgrp}
                         </Col>
-                        <Col xs="6">Các phiếu đăng kí tham gia cần xác nhận:
+                        <Col xs="4">Các phiếu đăng kí tham gia cần xác nhận:
                             {ticketlistgrp}
+                        </Col>
+                        <Col xs="4">
+                            <Toast>
+                                <ToastHeader>
+                                    Tạo nhanh phiếu đăng ký
+                                </ToastHeader>
+                                <ToastBody>
+                                    Mã số lịch<br></br>
+                                    <InputGroup>
+                                        <Input placeholder={this.state.plan.planId} value={this.state.plan.planId} />
+                                    </InputGroup>                                  
+                                    Mã số sinh viên <br></br>
+                                    <InputGroup>
+                                        <Input placeholder="" />
+                                    </InputGroup>     <br />     
+                                    <Button >Tạo</Button>                       
+                                </ToastBody>
+                            </Toast>
                         </Col>
                     </Row> <br></br><br></br>     
                     <Row>
-                        <Col xs="6">
-                            {this.state.scanning ? <Scanner onDetected={this._onDetected} /> : null}
+                        <Col xs="8">
+                            {this.state.scanning ? <Scanner onDetected={this._onDetected}
+                                                            planid={this.state.plan.planId} 
+                                                            ticketList={this.state.tickets}  
+                                                            studentidList={this.state.list_studentids}  
+                                                            /> : null}
                         </Col>
-                        <Col xs="6">{this.state.scanning ? 'Kết quả quét:' : ''}
+                        <Col xs="4">{this.state.scanning ? 'Kết quả quét:' : ''}
                             {/* {this.state.results} */}
                             <ListGroup>{this.state.l_results.map((res, index)=>{
                                 return(<ListGroupItem>{res}</ListGroupItem>)

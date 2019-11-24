@@ -271,3 +271,24 @@ export async function getPlansByStudent(studentId){
         return err.status;
     })
 }
+
+export async function getWaitingStudentIds(planId){
+    return await axios.get(API_BASE_URL + '/tickets/studentIdswaiting/' + planId, {
+        planId:planId
+    }).then(res=>{
+        return res.data; 
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
+export async function getTicketForScan(planid, studentid){
+    return await axios.get(API_BASE_URL + '/tickets/tkforScan/'+ planid + '/' + studentid, {
+        planid:planid,
+        studentid:studentid
+    }).then(res=>{
+        return res.data; 
+    }).catch(err=>{
+        return err.status;
+    })
+}
