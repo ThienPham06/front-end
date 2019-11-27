@@ -170,6 +170,15 @@ export async function createTicket(ticketRequest){
     })
 }
 
+export async function createCheckedTicket(ticketRequest){
+    return axios.post(API_BASE_URL + '/tickets/checked', ticketRequest
+    ).then(res=>{
+        return res.data.message;
+    }).catch(err=>{
+        return err.status;
+    })
+}
+
 export async function countWaitingTicket(planid){
     return axios.get(API_BASE_URL + '/tickets/' + planid, {
         planid:planid
@@ -292,3 +301,13 @@ export async function getTicketForScan(planid, studentid){
         return err.status;
     })
 }
+
+export async function getWaitingTicketsByStudent(studentid){
+    return await axios.get(API_BASE_URL + '/tickets/' + studentid + '/waiting', {
+        studentid:studentid
+    }).then(res=>{
+        return res.data
+    }).catch(err=>{
+        return err.status;
+    })
+} 

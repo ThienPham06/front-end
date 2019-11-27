@@ -1,6 +1,6 @@
 import React, {Component } from 'react';
 import Quagga from 'quagga';
-import {approveTicket, rejectTicket, getWaitingStudentIds, getTicketForScan} from '../../util/API';
+import {approveTicket, createTicket, getTicketForScan, createCheckedTicket} from '../../util/API';
 import swal from '@sweetalert/with-react';
 
 class Scanner extends Component {
@@ -11,7 +11,10 @@ class Scanner extends Component {
             list_studentids:[],
             ticket:[],
             scanRes:'',
-            ticketId:''
+            ticketId:'',
+            ticketRequest: {
+              planId:'', studentId:''
+          },
          }
     }
 
@@ -28,6 +31,7 @@ class Scanner extends Component {
             button:"OK"
           }).then(()=>{
             // this.toggle();
+            Quagga.start();
           });
         }else{
           swal({
@@ -39,6 +43,33 @@ class Scanner extends Component {
         }
       })
             });
+    }
+
+    handleCreateNewTicket = (y, x) => {
+      const {ticketRequest} = this.state;
+      ticketRequest.planId = y;
+      ticketRequest.studentId = x;
+      createCheckedTicket(ticketRequest).then(res=>{
+        if(res==="sc"){
+          swal({
+            title: "Thành công!",
+            text: "Đã tạo phiếu đăng kí và xác nhận cho sinh viên!",
+            icon: "success",
+            button:"OK"            
+          }).then(()=>{
+            this.openScanner()
+          })
+        }else{
+          swal({
+            title: "Lỗi!",
+            text: "Đã có lỗi xảy ra! Vui lòng thử lại!",
+            icon: "error",
+            button:"OK"             
+          }).then(()=>{
+            this.openScanner()
+          })
+        }
+      })
     }
 
     openScanner = () => {
@@ -94,27 +125,21 @@ class Scanner extends Component {
         Quagga.stop();
         this.setState({scanRes:result.codeResult.code})
         if(this.state.list_studentids.includes(result.codeResult.code)){
-          this.handleScanRegisteredTicket()
-        //   swal({
-        //     title: "ayesss!",
-        //     text: "Đã nhận code",
-        //     icon: "success",
-        //     button:"OK"
-        //   })
-        // }else {
-        //   swal({
-        //     title: "nooo!",
-        //     text: "Đéo nhận code",
-        //     icon: "error",
-        //     button:"OK"
-        //   })          
+          this.handleScanRegisteredTicket()       
         }else {
           swal({
                 title: "nooo!",
-                text: "Đéo nhận code",
-                icon: "error",
-                button:"OK"
-              })           
+                text: "Sinh viên với mã số " + result.codeResult.code + " chưa có phiếu đăng ký! Tạo phiếu đăng ký ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              }).then((value)=>{
+                if(value){
+                  this.handleCreateNewTicket(this.state.planid , result.codeResult.code);
+                }else {
+                  this.openScanner()
+                }
+              })      
         }
 
     };

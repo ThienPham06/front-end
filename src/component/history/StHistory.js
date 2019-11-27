@@ -4,7 +4,8 @@ import NavBar from '../navbar/NavBar';
 import ActionButton from '../action_button/ActionButton';
 import { ListGroup, ListGroupItem, Container, Row, Col } from 'reactstrap';
 import { Footer } from '../footer/Footer';
-import {getPlansByStudent} from "../../util/API";
+import {getPlansByStudent, getWaitingTicketsByStudent} from "../../util/API";
+import './HistoryPage.css';
 
 class StHistory extends Component {
     constructor(props) {
@@ -21,8 +22,15 @@ class StHistory extends Component {
         })
     }
 
+    loadWaitingTicketByStudent = () => {
+        getWaitingTicketsByStudent(sessionStorage.getItem('id')).then(res=>{
+            this.setState({waitingTickets:res})
+        })
+    }
+
     componentDidMount(){
         this.loadPlansByStudent();
+        this.loadWaitingTicketByStudent();
     }
 
     render() { 
@@ -34,14 +42,27 @@ class StHistory extends Component {
              <ListGroup> {this.state.plans.map((plan, index)=>{
                  return(
                      <ListGroupItem key={index}>
-                        {plan.planId}
+                        Mã số lịch: { plan.planId}
                      </ListGroupItem>
                  )
              })}
-
-             </ListGroup>    
-        return ( 
-        <div>
+             </ListGroup>
+             
+        let listticket;
+        if(this.state.waitingTickets.length===0)
+             listticket = <ListGroup><ListGroupItem>Bạn hiện không có phiếu đăng kí nào đợi xác nhận...</ListGroupItem></ListGroup>
+        else
+             listticket = 
+             <ListGroup> {this.state.waitingTickets.map((ticket, index)=>{
+                return(
+                    <ListGroupItem key={index}>
+                       Mã số phiếu: { ticket.ticketId}
+                    </ListGroupItem>
+                )
+            })}
+            </ListGroup>             
+             return ( 
+        <div className="hpage">
             <NavBar planCounting = {sessionStorage.getItem("wtPlan")}
                     closedPlanCounting={sessionStorage.getItem("clPlan")}
             /><br></br>
@@ -50,7 +71,7 @@ class StHistory extends Component {
                 <Container>
                     <Row>
                         <Col xs="4">Phiếu đang đợi xác nhận:
-                            
+                            {listticket}
                         </Col>
                         <Col xs="4">Các đợt hiến máu bạn đã đăng kí: 
                             {listplans}
