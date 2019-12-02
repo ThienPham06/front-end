@@ -55,7 +55,7 @@ class LoginForm extends Component {
                 <Input  type="text" name="userid" id="userid" invalid
                         placeholder="Mã số người dùng" 
                         innerRef={x=>(this.idInput=x)} />
-                <FormFeedback>User id or password is incorrect!</FormFeedback>
+                <FormFeedback>Mã số người dùng hoặc mật khẩu sai!</FormFeedback>
             </div>
         }else{
             errInput=<div>

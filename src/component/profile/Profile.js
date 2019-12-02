@@ -58,6 +58,7 @@ class Profile extends Component {
         let table;
         let image;
         if(this.state.admin!=="ADN-NaN"){
+            image=<CardImg top width="100%" height="100%" src={this.state.adminDetail.admindetailPortrait} alt="Card image cap"/>
             table=
             <div className="tableinfo">
             <Table>
@@ -73,10 +74,7 @@ class Profile extends Component {
                 <td>Email: </td>
                 <td>{this.state.adminDetail.admindetailEmail}</td>
             </tr>
-            <tr>
-                <td>Khoa: </td>
-                <td></td>
-            </tr>
+
         </Table></div>
         }else{
             image=<CardImg top width="100%" height="100%" src={this.state.studentDetail.studentdetailPortrait} alt="Card image cap"/>
@@ -99,10 +97,7 @@ class Profile extends Component {
                 <td>Nhóm máu: </td>
                 <td>{this.state.studentDetail.studentdetailBloodgroup}</td>
             </tr>
-            <tr>
-                <td>Khoa: </td>
-                <td></td>
-            </tr>
+
         </Table></div>
         
         }
@@ -117,8 +112,8 @@ class Profile extends Component {
                         <Card className="usercard">
                             {image}
                             <CardBody>
-                                <CardTitle></CardTitle>                    
-                                <Button>Đổi ảnh đại diện</Button>
+                                <CardTitle>Ảnh đại diện</CardTitle>                    
+                                {/* <Button>Đổi ảnh đại diện</Button> */}
                             </CardBody>
                         </Card>
                     </Col><br></br>

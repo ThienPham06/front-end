@@ -148,7 +148,7 @@ class Plan extends Component {
                 } else{
                     swal({
                         title: "Lỗi!",
-                        text: "Đăng trong thời gian 3 tháng kể từ lần hiến máu gần nhất của bạn, vui lòng quay lại sau !",
+                        text: "Đang trong thời gian 3 tháng kể từ lần hiến máu gần nhất của bạn, vui lòng quay lại sau !",
                         icon: "error",
                         button: "OK",
                       }).then(()=>{

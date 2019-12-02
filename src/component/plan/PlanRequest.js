@@ -39,13 +39,13 @@ class PlanRequest extends Component {
         let errors = this.state.errors;
         switch(name){
             case 'planId':
-                errors.planid = value.length > 5 ? 'Plan ID must less than 5 characters!' : '';
+                errors.planid = value.length > 5 ? 'Mã số lịch phải ít hơn 5 kí tự!' : '';
                 break;
             case 'planDate':
-                errors.date = Date.parse(input) <= Date.parse(valid) ? 'Date have to be 9 days more from today!' : ''; 
+                errors.date = Date.parse(input) <= Date.parse(valid) ? 'Ngày tổ chức phải nhiều hơn 9 ngày kể từ ngày hôm nay!' : ''; 
                 break;
             case 'quantity':
-                errors.quantity = value <=0 || value > 200 ? "Plan request attendants has to > 0 and < 200" : ';'
+                errors.quantity = value <=0 || value > 200 ? "Số lượng dự kiến tối đa là 200" : ';'
         }
         this.setState({errors, [name]: value});
 

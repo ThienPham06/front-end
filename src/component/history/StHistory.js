@@ -4,7 +4,7 @@ import NavBar from '../navbar/NavBar';
 import ActionButton from '../action_button/ActionButton';
 import { ListGroup, ListGroupItem, Container, Row, Col } from 'reactstrap';
 import { Footer } from '../footer/Footer';
-import {getPlansByStudent, getWaitingTicketsByStudent} from "../../util/API";
+import {getPlansByStudent, getWaitingTicketsByStudent, getCheckedTicketsByStudentAndPlan} from "../../util/API";
 import './HistoryPage.css';
 
 class StHistory extends Component {
@@ -12,7 +12,8 @@ class StHistory extends Component {
         super(props);
         this.state = {
             waitingTickets:[],
-            plans:[]
+            plans:[],
+            checkedTickets:[]
         }
     }
 
@@ -25,6 +26,12 @@ class StHistory extends Component {
     loadWaitingTicketByStudent = () => {
         getWaitingTicketsByStudent(sessionStorage.getItem('id')).then(res=>{
             this.setState({waitingTickets:res})
+        })
+    }
+
+    loadCheckedTicketByStudentAndPlan = (x) =>{
+        getCheckedTicketsByStudentAndPlan(x, sessionStorage.getItem('id')).then(res=>{
+            this.setState({checkedTickets:res})
         })
     }
 
@@ -41,7 +48,7 @@ class StHistory extends Component {
             listplans =
              <ListGroup> {this.state.plans.map((plan, index)=>{
                  return(
-                     <ListGroupItem key={index}>
+                     <ListGroupItem key={index} onClick = {this.loadCheckedTicketByStudentAndPlan(plan.planId)}>
                         Mã số lịch: { plan.planId}
                      </ListGroupItem>
                  )

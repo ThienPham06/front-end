@@ -311,3 +311,14 @@ export async function getWaitingTicketsByStudent(studentid){
         return err.status;
     })
 } 
+
+export async function getCheckedTicketsByStudentAndPlan(planid, studentid){
+    return axios.get(API_BASE_URL + '/tickets/' + planid + '/' + studentid, {
+        planid:planid,
+        studentid:studentid
+    }).then(res=>{
+        return res.data
+    }).catch(err=>{
+        return err.status;
+    })
+}
