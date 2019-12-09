@@ -145,7 +145,7 @@ class Plan extends Component {
                       }).then(()=>{
                         this.toggle();
                       })
-                } else{
+                } else{ if(res==="timeErr")
                     swal({
                         title: "Lỗi!",
                         text: "Đang trong thời gian 3 tháng kể từ lần hiến máu gần nhất của bạn, vui lòng quay lại sau !",

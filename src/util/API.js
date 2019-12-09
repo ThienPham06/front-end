@@ -312,9 +312,8 @@ export async function getWaitingTicketsByStudent(studentid){
     })
 } 
 
-export async function getCheckedTicketsByStudentAndPlan(planid, studentid){
-    return axios.get(API_BASE_URL + '/tickets/' + planid + '/' + studentid, {
-        planid:planid,
+export async function getCheckedTicketsByStudent(studentid){
+    return axios.get(API_BASE_URL + '/tickets/' + studentid + '/approved', {
         studentid:studentid
     }).then(res=>{
         return res.data

@@ -53,7 +53,7 @@ class HistoryPage extends Component {
                 <ListGroup> {this.state.closedPlans.map((plan, index)=>{
                     return (
                         <ListGroupItem key={index}>
-                            {plan.planId}
+                           Mã số: { plan.planId}
                         </ListGroupItem>
                     )
                 })}
@@ -66,7 +66,7 @@ class HistoryPage extends Component {
                 <ListGroup> {this.state.waitingPlans.map((plan, index)=>{
                     return (
                         <ListGroupItem key={index}>
-                            {plan.planId}
+                        Mã số: { plan.planId}
                         </ListGroupItem>
                     )
                 })}
@@ -79,7 +79,7 @@ class HistoryPage extends Component {
                 <ListGroup> {this.state.approvedPlans.map((plan, index)=>{
                     return (
                         <ListGroupItem key={index}>
-                            {plan.planId}
+                        Mã số: { plan.planId}
                         </ListGroupItem>
                     )
                 })}
@@ -106,7 +106,7 @@ class HistoryPage extends Component {
                     </Row>
                 </Container>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
         );
     }

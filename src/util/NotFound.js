@@ -6,7 +6,9 @@ import { Footer } from '../component/footer/Footer';
 
 class NotFound extends Component {
     
+
     render() { 
+        
         return (
         <div className='nf'>
             <NavBar planCounting = {sessionStorage.getItem("wtPlan")}
@@ -18,9 +20,9 @@ class NotFound extends Component {
                 <div className="desc">
                     Bạn không có quyền truy cập hoặc quyền thực hiện hành động này!
                 </div>
-                <Button className="go-back-btn" type="primary" size="large">Go Back</Button>
+                {/* <Button className="go-back-btn" type="primary" size="large" onClick={this.goback}>Go Back</Button> */}
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
            
         );

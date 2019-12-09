@@ -17,7 +17,10 @@ class PlanRequest extends Component {
             errors:{
                 planid:'',
                 date:'',
-                quantityV:''
+                quantityV:'',
+                place:'',
+                contact:''
+
             }
         }
     }
@@ -45,7 +48,16 @@ class PlanRequest extends Component {
                 errors.date = Date.parse(input) <= Date.parse(valid) ? 'Ngày tổ chức phải nhiều hơn 9 ngày kể từ ngày hôm nay!' : ''; 
                 break;
             case 'quantity':
-                errors.quantity = value <=0 || value > 200 ? "Số lượng dự kiến tối đa là 200" : ';'
+                errors.quantityV = value > 200 ? "Số lượng dự kiến tối đa là 200" : ''
+                errors.quantityV = value < 10 ? "Số lượng tối thiểu là 10" : ''
+                break;
+            case 'planPlace':
+                errors.place = value.length < 1 ? "Nơi tổ chức không được để trống" : ''
+                break
+            case 'planContact': 
+                errors.contact = value.length < 1 ? "Liên hệ không được để trống" : ''
+                break;
+
         }
         this.setState({errors, [name]: value});
 
@@ -90,8 +102,8 @@ class PlanRequest extends Component {
     render() { 
         const {errors} = this.state;
         let subBut;
-        if(errors.date.length>0 || errors.planid.length>0){
-            subBut = <Button disabled>Submit</Button>
+        if(errors.date.length>0 || errors.planid.length>0 || errors.quantityV.length>0 || errors.place.length>0 || errors.contact.length>0){
+            subBut = <Button disabled>Tạo</Button>
         }else{
             subBut = <Button color='success' onClick={(e)=>this.handleSubmit(e)}>Tạo</Button>
         }
@@ -133,7 +145,10 @@ class PlanRequest extends Component {
                             name="planPlace" 
                             id="planPlace" 
                             placeholder="Địa điểm tổ chức"
-                            innerRef={x=>(this.venueInput=x)} />
+                            innerRef={x=>(this.venueInput=x)} 
+                            onChange={(e)=>this.handleChange(e)}
+                            />
+                            {errors.place.length>0 && <div className='err'><span>{errors.place}</span></div>}
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -143,7 +158,9 @@ class PlanRequest extends Component {
                             id="planContact" 
                             placeholder="Họ tên, số điện thoại" 
                             innerRef={x=>(this.contactInput=x)}
+                            onChange={(e)=>this.handleChange(e)}
                             />
+                            {errors.contact.length>0 && <div className='err'><span>{errors.contact}</span></div>}
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -151,9 +168,11 @@ class PlanRequest extends Component {
                     <Col sm={10}>
                         <Input required type='number' name="quantity" 
                             id="quantity" 
-                            placeholder="Sô lượng" 
+                            placeholder="Số lượng" 
                             innerRef={x=>(this.quantityInput=x)}
+                            onChange={(e)=>this.handleChange(e)}
                             />
+                            {errors.quantityV.length>0 && <div className='err'><span>{errors.quantityV}</span></div>}
                     </Col>
                 </FormGroup>
                 <FormGroup row>

@@ -199,7 +199,7 @@ class PlanPage extends Component {
                     modalCallbackFromList={this.modalCallback.bind(this)}
                     count={this.state.ticketCount}
             />
-            <Footer />
+            {/* <Footer /> */}
         </div>
         );
         }

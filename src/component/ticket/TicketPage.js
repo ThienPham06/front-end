@@ -196,7 +196,7 @@ class TicketPage extends Component {
                                                             /> : null}
                         </Col>
                         <Col xs="4">{this.state.scanning ? 'Kết quả quét:' : ''}
-                            {/* {this.state.results} */}
+                        
                             <ListGroup>{this.state.l_results.map((res, index)=>{
                                 return(<ListGroupItem>{res}</ListGroupItem>)
                             })}
@@ -214,7 +214,7 @@ class TicketPage extends Component {
                     />
             
             <div className='scanbtn' ><Button color='success' onClick={this._scan}>Scan</Button></div>
-            <Footer />
+            {/* <Footer /> */}
 
 
         </div>

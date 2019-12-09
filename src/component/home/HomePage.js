@@ -124,7 +124,7 @@ class HomePage extends Component {
                         </Col>
                     </Row>
                 </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
         );
         }
